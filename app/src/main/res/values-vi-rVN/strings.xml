@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<string name="app_name">E-Signing</string>-->
+    <!--<string name="binhthuong">Bình thường</string>-->
+    <!--<string name="cao">Cao</string>-->
+    <!--<string name="chinhsua">Chỉnh sửa</string>-->
+    <!--<string name="dangxuat">Đăng xuất</string>-->
+    <!--<string name="den">Đến</string>-->
+
+    <!--<string name="giayracong">Giấy ra cổng</string>-->
+    <!--<string name="giayyeucaucongtac">Giấy yêu cầu công tác</string>-->
+    <!--<string name="giayyeucauxe">Giấy yêu cầu xe</string>-->
+    <!--<string name="guidi">Gửi đi</string>-->
+    <!--<string name="khancap">Khẩn cấp</string>-->
+    <!--<string name="luu">Lưu</string>-->
+    <!--<string name="maybay">Máy bay</string>-->
+    <!--<string name="mieuta">Miêu tả</string>-->
+    <!--<string name="mucdich">Mục đích</string>-->
+    <!--<string name="nguoidikem">Người đi kèm</string>-->
+
+    <!--<string name="noiden">Nơi đến</string>-->
+    <!--<string name="otocongty">Ô tô công ty</string>-->
+    <!--<string name="tauhoa">Tàu hỏa</string>-->
+    <!--<string name="thoat">Thoát</string>-->
+    <!--<string name="xekhach">Xe khách</string>-->
+    <!--<string name="xemayrieng">Xe máy riêng</string>-->
+    <!--<string name="xemtruoc">Xem trước</string>-->
+
+    <!--<string name="drawer_close">Close navigation drawer</string>-->
+    <!--<string name="drawer_open">Open navigation drawer</string>-->
+</resources>

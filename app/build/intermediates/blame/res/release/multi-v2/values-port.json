@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "/home/user/Development/appsandroid/esigning_user/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/home/user/.gradle/caches/transforms-2/files-2.1/a1ff1cc382afdc9532fa7c39bbeb2971/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

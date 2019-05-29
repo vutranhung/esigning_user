@@ -1,0 +1,52 @@
+<resources>
+
+    <!--region chung-->
+    <string name="app_name">E-Signing</string>
+    <string name="luu">Save</string>
+    <string name="mieuta">Comment</string>
+    <string name="den">To</string>
+    <string name="xemtruoc">Preview</string>
+    <string name="chinhsua">Edit</string>
+    <string name="guidi">Send</string>
+    <!--endregion-->
+
+    <!--region menu-->
+    <string name="leave">Leave Form</string>
+    <string name="giayyeucaucongtac">Work Travel Form</string>
+    <string name="giayracong">Exit Form</string>
+    <string name="giayyeucauxe">Vehicle Resquest Form</string>
+    <string name="giaymanghanghoarangoai">Bring Out Form</string>
+    <string name="thoat">Exit</string>
+    <string name="dangxuat">Logout</string>
+    <!--endregion-->
+
+    <!--region Work Travel Form-->
+    <string name="noiden">Destination</string>
+    <string name="mucdich">Purpose</string>
+    <string name="nguoidikem">Accompanied person</string>
+
+    <string name="xemayrieng">Own motorcycle/Xe máy riêng</string>
+    <string name="xekhach">Public transportation/Xe khách</string>
+    <string name="maybay">Air plane/Máy bay</string>
+    <string name="otocongty">Company car/Ô tô công ty</string>
+    <string name="tauhoa">Train/Tàu hỏa</string>
+    <!--endregion-->
+
+    <!--region Exit Form-->
+    <string name="lydo">Reason</string>
+    <string name="congviec">Duties / Công việc</string>
+    <string name="canhan">Personnal / Cá nhân</string>
+
+    <!--Exit Form-->
+    <string name="cho7">7 seats / Xe 7 chỗ</string>
+    <string name="cho16">16 seats / Xe 16 chỗ</string>
+    <!--endregion-->
+
+    <!--region VEHICLE FORM-->
+    <string name="noibatdau">From Place</string>
+    <!--endregion-->
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+</resources>

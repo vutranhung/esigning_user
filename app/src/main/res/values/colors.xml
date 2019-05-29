@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="colorbuttom">#f9ffffff</color>
+
+    <color name="normal">#c6c6c6</color>
+    <color name="high">#ffaca8</color>
+    <color name="express">#deff0000</color>
+
+    <color name="InSigning">#fc2d26</color>
+    <color name="Pending">#ff7974</color>
+
+    <color name="isviewed">#c9f2f2f2</color>
+
+    <color name="buttonformat1">#f9f0f8f9</color>
+
+    <color name="colortext">#0075be</color>~
+
+</resources>
