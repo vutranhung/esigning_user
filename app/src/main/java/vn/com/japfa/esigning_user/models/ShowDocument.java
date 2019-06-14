@@ -8,9 +8,7 @@ public class ShowDocument {
     @SerializedName("rawInformation")
     @Expose
     private String rawInformation;
-    @SerializedName("responseMeta")
-    @Expose
-    private ResponseMeta responseMeta;
+
 
     /**
      * No args constructor for use in serialization
@@ -22,12 +20,12 @@ public class ShowDocument {
     /**
      *
      * @param rawInformation
-     * @param responseMeta
+
      */
-    public ShowDocument(String rawInformation, ResponseMeta responseMeta) {
+    public ShowDocument(String rawInformation ) {
         super();
         this.rawInformation = rawInformation;
-        this.responseMeta = responseMeta;
+
     }
 
     public String getRawInformation() {
@@ -38,12 +36,6 @@ public class ShowDocument {
         this.rawInformation = rawInformation;
     }
 
-    public ResponseMeta getResponseMeta() {
-        return responseMeta;
-    }
 
-    public void setResponseMeta(ResponseMeta responseMeta) {
-        this.responseMeta = responseMeta;
-    }
 
 }

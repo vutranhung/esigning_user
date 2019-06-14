@@ -109,26 +109,22 @@ public class ActivityDocumentHD extends BaseActivity {
 
     private void accept() {
 
-        Call<Data> call = BaseApp.service().accept(BaseApp.userID, BaseApp.documentID
+        Call<Void> call = BaseApp.service().accept(BaseApp.userID, BaseApp.documentID
                 , "", editTextComment.getText().toString());
 
-        call.enqueue(new CallBackCustom<Data>(this) {
+        call.enqueue(new CallBackCustom<Void>(this) {
             @Override
-            public void onResponseCustom(Call<Data> call, Response<Data> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    String message = response.body().getResponseMeta().getMessage();
-                    if (statusCode.equals("201")) {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                        finishAndRemoveTask();
-                    } else {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                    }
+            public void onResponseCustom(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(ActivityDocumentHD.this, "Sign document successful", Toast.LENGTH_SHORT).show();
+                    finishAndRemoveTask();
+                }else {
+                    Toast.makeText(ActivityDocumentHD.this, "Sign document error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailureCustom(Call<Data> call, Throwable t) {
+            public void onFailureCustom(Call<Void> call, Throwable t) {
                 Toast.makeText(ActivityDocumentHD.this, "Check on your Internet connection and try again.(Accept error)", Toast.LENGTH_SHORT).show();
             }
         });
@@ -146,23 +142,26 @@ public class ActivityDocumentHD extends BaseActivity {
 
     private void listSigned() {
 
-        Call<Data> call = BaseApp.service().listSigned(BaseApp.userID, BaseApp.documentID);
+        Call<List<DocumentsDatum>> call = BaseApp.service().listSigned(BaseApp.userID, BaseApp.documentID);
 
-        call.enqueue(new CallBackCustom<Data>(this) {
+        call.enqueue(new CallBackCustom<List<DocumentsDatum>>(this) {
             @Override
-            public void onResponseCustom(Call<Data> call, Response<Data> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    if (statusCode.equals("200")) {
-                        List<DocumentsDatum> listSigned = response.body().getDocumentsData();
-                        AdapterSigned adapter = new AdapterSigned(ActivityDocumentHD.this, listSigned);
+            public void onResponseCustom(Call<List<DocumentsDatum>> call, Response<List<DocumentsDatum>> response) {
+                if(response.isSuccessful()){
+                    List<DocumentsDatum> lstSigned=response.body();
+                    if(lstSigned!=null){
+                        AdapterSigned adapter = new AdapterSigned(ActivityDocumentHD.this, lstSigned);
                         recycleViewSigned.setAdapter(adapter);
+                    }else {
+                        Toast.makeText(ActivityDocumentHD.this, "Get list before signer error", Toast.LENGTH_SHORT).show();
                     }
+                }else {
+                    Toast.makeText(ActivityDocumentHD.this, "Get list before signer error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailureCustom(Call<Data> call, Throwable t) {
+            public void onFailureCustom(Call<List<DocumentsDatum>> call, Throwable t) {
                 Toast.makeText(ActivityDocumentHD.this, "Check on your Internet connection and try again.(listSigned - error)", Toast.LENGTH_SHORT).show();
             }
         });
@@ -177,25 +176,22 @@ public class ActivityDocumentHD extends BaseActivity {
     }
 
     private void pending() {
-        Call<Data> call = BaseApp.service().pending(BaseApp.userID, BaseApp.documentID
+        Call<Void> call = BaseApp.service().pending(BaseApp.userID, BaseApp.documentID
                 , editTextComment.getText().toString());
-        call.enqueue(new CallBackCustom<Data>(this) {
+        call.enqueue(new CallBackCustom<Void>(this) {
             @Override
-            public void onResponseCustom(Call<Data> call, Response<Data> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    String message = response.body().getResponseMeta().getMessage();
-                    if (statusCode.equals("201")) {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                        finishAndRemoveTask();
-                    } else {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                    }
+            public void onResponseCustom(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(ActivityDocumentHD.this, "Reject document signing successful", Toast.LENGTH_SHORT).show();
+                    finishAndRemoveTask();
+                }else {
+                    Toast.makeText(ActivityDocumentHD.this, "Reject document signing error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<Data> call, Throwable t) {
+            public void onFailureCustom(Call<Void> call, Throwable t) {
                 Toast.makeText(ActivityDocumentHD.this, "Check on your Internet connection and try again.(Pending error)", Toast.LENGTH_SHORT).show();
             }
         });
@@ -228,27 +224,24 @@ public class ActivityDocumentHD extends BaseActivity {
 
     private void reject() {
 
-        Call<Data> call = BaseApp.service().reject(BaseApp.userID, BaseApp.documentID
+        Call<Void> call = BaseApp.service().reject(BaseApp.userID, BaseApp.documentID
                 , editTextComment.getText().toString());
 
-        call.enqueue(new CallBackCustom<Data>(this) {
+        call.enqueue(new CallBackCustom<Void>(this) {
             @Override
-            public void onResponseCustom(Call<Data> call, Response<Data> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    String message = response.body().getResponseMeta().getMessage();
+            public void onResponseCustom(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
 
-                    if (statusCode.equals("201")) {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                        finishAndRemoveTask();
-                    } else {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(ActivityDocumentHD.this, "Reject document signing successful.", Toast.LENGTH_SHORT).show();
+                    finishAndRemoveTask();
+                }else {
+                    Toast.makeText(ActivityDocumentHD.this, "Reject document signing error.", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<Data> call, Throwable t) {
+            public void onFailureCustom(Call<Void> call, Throwable t) {
                 Toast.makeText(ActivityDocumentHD.this, "Check on your Internet connection and try again.(Reject error)", Toast.LENGTH_SHORT).show();
             }
         });
@@ -272,18 +265,16 @@ public class ActivityDocumentHD extends BaseActivity {
         getUserName();
     }
 
-    List<String> listUserName;
+   // List<String> listUserName;
 
     private void getUserName() {
-        Call<UserName> call = BaseApp.service().getAllUser(BaseApp.userID);
-        call.enqueue(new CallBackCustom<UserName>(ActivityDocumentHD.this) {
+        Call<List<String>> call = BaseApp.service().getAllUser(BaseApp.userID);
+        call.enqueue(new CallBackCustom<List<String>>(ActivityDocumentHD.this) {
             @Override
-            public void onResponseCustom(Call<UserName> call, Response<UserName> response) {
-                UserName userName = response.body();
-                if (userName != null) {
-                    String status = userName.getResponseMeta().getStatusCode();
-                    String message = userName.getResponseMeta().getMessage();
-                    if (status.equals("200")) {
+            public void onResponseCustom(Call<List<String>> call, Response<List<String>> response) {
+                if(response.isSuccessful()){
+                    List<String> lstUserName=response.body();
+                    if(lstUserName!=null){
                         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityDocumentHD.this, R.style.Theme_Dialog_Alert);
                         LayoutInflater layoutInflater = LayoutInflater.from(ActivityDocumentHD.this);
                         View dialogLayout = layoutInflater.inflate(R.layout.dialog_forward, null);
@@ -294,8 +285,8 @@ public class ActivityDocumentHD extends BaseActivity {
                         editTextCommentDialog = dialogLayout.findViewById(R.id.editTextCommentDialog);
                         autoCompleteTextViewFW.setThreshold(2);
 
-                        listUserName = userName.getUsernameData();
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(ActivityDocumentHD.this, android.R.layout.simple_list_item_1, listUserName);
+                        //listUserName = userName.getUsernameData();
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(ActivityDocumentHD.this, android.R.layout.simple_list_item_1, lstUserName);
                         autoCompleteTextViewFW.setAdapter(adapter);
 
                         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
@@ -303,7 +294,7 @@ public class ActivityDocumentHD extends BaseActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 String userName = autoCompleteTextViewFW.getText().toString();
                                 boolean check = true;
-                                for (String name : listUserName) {
+                                for (String name : lstUserName) {
                                     if (userName.equals(name)) {
                                         forward(userName, editTextCommentDialog.getText().toString());
                                         check = false;
@@ -317,13 +308,17 @@ public class ActivityDocumentHD extends BaseActivity {
                         });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                    } else
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(ActivityDocumentHD.this, "Forward sign error", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(ActivityDocumentHD.this, "Forward sign error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<UserName> call, Throwable t) {
+            public void onFailureCustom(Call<List<String>> call, Throwable t) {
                 Toast.makeText(ActivityDocumentHD.this, "getUserName onFailureCustom(" + t.getMessage() + ")", Toast.LENGTH_SHORT).show();
             }
         });
@@ -331,26 +326,22 @@ public class ActivityDocumentHD extends BaseActivity {
 
     private void forward(String username, String comment) {
 
-        Call<UserName> call = BaseApp.service().forward(BaseApp.userID, BaseApp.documentID, username, comment);
+        Call<Void> call = BaseApp.service().forward(BaseApp.userID, BaseApp.documentID, username, comment);
         Log.e("++", BaseApp.userID + "   " + BaseApp.documentID);
-        call.enqueue(new CallBackCustom<UserName>(this) {
+        call.enqueue(new CallBackCustom<Void>(this) {
             @Override
-            public void onResponseCustom(Call<UserName> call, Response<UserName> response) {
-                UserName userNameResponse = response.body();
-                if (userNameResponse != null) {
-                    String status = userNameResponse.getResponseMeta().getStatusCode();
-                    String message = userNameResponse.getResponseMeta().getMessage();
-                    if (status.equals("201")) {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                        finishAndRemoveTask();
-                    } else {
-                        Toast.makeText(ActivityDocumentHD.this, message, Toast.LENGTH_SHORT).show();
-                    }
+            public void onResponseCustom(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(ActivityDocumentHD.this, "Forward document signing successful", Toast.LENGTH_SHORT).show();
+                    finishAndRemoveTask();
+                }else {
+                    Toast.makeText(ActivityDocumentHD.this, "Forward document signing error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<UserName> call, Throwable t) {
+            public void onFailureCustom(Call<Void> call, Throwable t) {
                 Toast.makeText(ActivityDocumentHD.this, "forward error(" + t.getMessage() + ")", Toast.LENGTH_SHORT).show();
 
             }

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/user/Development/appsandroid/esigning_user/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
+            "outputFile": "D:\\Tungnd\\esigning_user\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-land\\values-land.xml",
             "map": [
                 {
-                    "source": "/home/user/.gradle/caches/transforms-2/files-2.1/0687beae5e5b38c88ca9aadf211e3542/res/values-land/values-land.xml",
+                    "source": "C:\\Users\\tung.nguyendang\\.gradle\\caches\\transforms-2\\files-2.1\\c3753066855a03a4b1ea467628a390e3\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/home/user/.gradle/caches/transforms-2/files-2.1/78081f71b0d3cc9019c5d56a547d8e14/res/values-land/values-land.xml",
+                    "source": "C:\\Users\\tung.nguyendang\\.gradle\\caches\\transforms-2\\files-2.1\\afe5d30d9e504e3289c18c28aa01e24c\\res\\values-land\\values-land.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

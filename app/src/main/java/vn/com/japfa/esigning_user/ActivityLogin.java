@@ -43,12 +43,15 @@ import vn.com.japfa.esigning_user.Interface.Service;
 import vn.com.japfa.esigning_user.base.BaseApp;
 import vn.com.japfa.esigning_user.base.CallBackCustom;
 import vn.com.japfa.esigning_user.documents.ActivityDocuments_;
+import vn.com.japfa.esigning_user.models.MTRelease;
 import vn.com.japfa.esigning_user.models.User;
+import vn.com.japfa.esigning_user.util.Constant;
+import vn.com.japfa.esigning_user.util.UtilHelper;
 
 @EActivity
 public class ActivityLogin extends AppCompatActivity {
     private String mUserName;
-    private String versionLocal = "3.6";
+    private String versionLocal = "1";
     /* Azure AD Variables */
     private AuthenticationContext mAuthContext;
     private AuthenticationResult mAuthResult;
@@ -66,6 +69,7 @@ public class ActivityLogin extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         requestPermissions();
         mAuthContext = new AuthenticationContext(getApplicationContext(), AUTHORITY, false);
+        UtilHelper.getValueProperty(this);
         checkVersionAndUpdate();
     }
 
@@ -103,21 +107,27 @@ public class ActivityLogin extends AppCompatActivity {
         call.enqueue(new CallBackCustom<User>(this) {
             @Override
             public void onResponseCustom(Call<User> call, Response<User> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    String message = response.body().getResponseMeta().getMessage();
-                    if (statusCode.equals("200")) {
-                        Intent intent = new Intent(ActivityLogin.this, ActivityDocuments_.class);
-                        BaseApp.userID = response.body().getLoginUser().getId();
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(ActivityLogin.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                }
+
+//                if (response.body() != null) {
+//                    String statusCode = response.body().getResponseMeta().getStatusCode();
+//                    String message = response.body().getResponseMeta().getMessage();
+//                    if (statusCode.equals("200")) {
+//                        Intent intent = new Intent(ActivityLogin.this, ActivityDocuments_.class);
+//                        BaseApp.userID = response.body().getLoginUser().getId();
+//                        startActivity(intent);
+//                    } else {
+//                        Toast.makeText(ActivityLogin.this, message, Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+
+                Intent intent = new Intent(ActivityLogin.this, ActivityDocuments_.class);
+                BaseApp.userID = response.body().getID();
+                startActivity(intent);
             }
 
             @Override
             public void onFailureCustom(Call<User> call, Throwable t) {
+              //  Toast.makeText(ActivityLogin.this, "Check on your Internet connection and try again.(Login error)", Toast.LENGTH_SHORT).show();
                 Toast.makeText(ActivityLogin.this, "Check on your Internet connection and try again.(Login error)", Toast.LENGTH_SHORT).show();
             }
         });
@@ -276,23 +286,30 @@ public class ActivityLogin extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Service service = retrofit.create(Service.class);
-        Call<String> call = service.checkVersionAndUpdate();
+        Call<MTRelease> call = service.checkVersionAndUpdate(Constant.APP_NAME_VALUE);
 
-        call.enqueue(new CallBackCustom<String>(this) {
+        call.enqueue(new CallBackCustom<MTRelease>(this) {
             @Override
-            public void onResponseCustom(Call<String> call, Response<String> response) {
-                if (response.body() != null) {
-                    BaseApp.version = response.body();
-                    if (!BaseApp.version.equals(versionLocal)) {
-                        downloadAndInstall();
-                    } else {
-                        loginMicrosoft();
+            public void onResponseCustom(Call<MTRelease> call, Response<MTRelease> response) {
+                if(response.isSuccessful()){
+                    MTRelease mtRelease=response.body();
+                    if(mtRelease!=null ){
+                        if(!mtRelease.getCURRENTVERSION().toString().equals(versionLocal)){
+                            downloadAndInstall();
+                        }else {
+                            loginMicrosoft();
+                        }
+                    }else {
+                        Toast.makeText(ActivityLogin.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
                     }
+                }else {
+                    Toast.makeText(ActivityLogin.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<String> call, Throwable t) {
+            public void onFailureCustom(Call<MTRelease> call, Throwable t) {
                 Toast.makeText(ActivityLogin.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
             }
         });

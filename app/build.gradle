@@ -16,12 +16,26 @@ android {
             minifyEnabled true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def appName = "esigninguser"
+                    outputFileName = appName+".apk"
+                   // outputFileName = appName+"-${variant.versionName}.apk"
+                }
+            }
         }
         debug {
             shrinkResources false //bo tai nguyen ko dung toi
             minifyEnabled false
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    def appName = "esigninguser"
+                   // outputFileName = appName+"-${variant.versionName}.apk"
+                    outputFileName = appName+".apk"
+                }
+            }
         }
     }
     compileOptions {

@@ -26,6 +26,7 @@ import java.util.concurrent.TimeUnit;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import vn.com.japfa.esigning_user.util.Constant;
 
 public class BaseApp extends Application {
 
@@ -155,7 +156,8 @@ public class BaseApp extends Application {
     }
 
     public static Service service() {
-        String baseURL = "http://apps.japfa.com.vn:62040/";
+      //  String baseURL = "http://apps.japfa.com.vn:62040/";
+        String baseURL= Constant.SERVICE_URL_VALUE;
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(200, TimeUnit.SECONDS)

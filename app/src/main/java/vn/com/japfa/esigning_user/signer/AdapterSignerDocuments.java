@@ -82,22 +82,21 @@ public class AdapterSignerDocuments extends RecyclerView.Adapter<AdapterSignerDo
 
     private void isView(int userid, String documentid) {
 
-        Call<Data> call = BaseApp.service().isView(userid, documentid);
+        Call<Void> call = BaseApp.service().isView(userid, documentid);
 
-        call.enqueue(new CallBackCustom<Data>(context) {
+        call.enqueue(new CallBackCustom<Void>(context) {
             @Override
-            public void onResponseCustom(Call<Data> call, Response<Data> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    String message = response.body().getResponseMeta().getMessage();
-                    if (!statusCode.equals("201")) {
-                        Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                    }
+            public void onResponseCustom(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(context.getApplicationContext(), "Toggle is viewed successfully", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context.getApplicationContext(), "Toggle is viewed unsuccessfully", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
-            public void onFailureCustom(Call<Data> call, Throwable t) {
+            public void onFailureCustom(Call<Void> call, Throwable t) {
                 Toast.makeText(context.getApplicationContext(), "Check on your Internet connection and try again.(isView error)", Toast.LENGTH_SHORT).show();
             }
         });

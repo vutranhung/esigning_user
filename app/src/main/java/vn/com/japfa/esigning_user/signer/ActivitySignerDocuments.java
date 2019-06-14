@@ -66,34 +66,36 @@ public class ActivitySignerDocuments extends BaseActivity {
 
     private void getData() {
 
-        Call<Data> call = BaseApp.service().getData(BaseApp.userID);
+        Call<List<DocumentsDatum>> call = BaseApp.service().getData(BaseApp.userID);
 
-        call.enqueue(new CallBackCustom<Data>(this) {
+        call.enqueue(new CallBackCustom<List<DocumentsDatum>>(this) {
             @Override
-            public void onResponseCustom(Call<Data> call, Response<Data> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    String message = response.body().getResponseMeta().getMessage();
-                    if (statusCode.equals("200")) {
-                        List<DocumentsDatum> dataList = response.body().getDocumentsData();
-                        adapter = new AdapterSignerDocuments(dataList, ActivitySignerDocuments.this);
+            public void onResponseCustom(Call<List<DocumentsDatum>> call, Response<List<DocumentsDatum>> response) {
+
+                if(response.isSuccessful()){
+                    List<DocumentsDatum> lstData=response.body();
+                    if(lstData!=null){
+                        adapter = new AdapterSignerDocuments(lstData, ActivitySignerDocuments.this);
                         recyclerView.setAdapter(adapter);
                         isviewed = 0;
-                        for (DocumentsDatum document : dataList) {
+                        for (DocumentsDatum document : lstData) {
                             if (document.getStatusApproval().equals("InSigning")
                                     || document.getStatusApproval().equals("Pending")) {
                                 isviewed++;
                             }
                         }
                         supportInvalidateOptionsMenu();
-                    } else {
-                        Toast.makeText(ActivitySignerDocuments.this, message, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(ActivitySignerDocuments.this, "Get data error", Toast.LENGTH_SHORT).show();
                     }
+                }else{
+                    Toast.makeText(ActivitySignerDocuments.this, "Get data error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<Data> call, Throwable t) {
+            public void onFailureCustom(Call<List<DocumentsDatum>> call, Throwable t) {
                 Toast.makeText(ActivitySignerDocuments.this, "Check on your Internet connection and try again.(getData error)", Toast.LENGTH_SHORT).show();
             }
         });

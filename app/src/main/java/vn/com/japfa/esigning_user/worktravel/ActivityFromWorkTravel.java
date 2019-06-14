@@ -94,21 +94,18 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
     @Override
     public void showDocument() {
 
-        Call<ShowDocument> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
+        Call<String> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
 
-        call.enqueue(new CallBackCustom<ShowDocument>(this) {
+        call.enqueue(new CallBackCustom<String>(this) {
             @Override
-            public void onResponseCustom(Call<ShowDocument> call, Response<ShowDocument> response) {
-                ShowDocument showDocument = response.body();
-                if (showDocument != null) {
-                    String status = showDocument.getResponseMeta().getStatusCode();
-                    String message = showDocument.getResponseMeta().getMessage();
-                    if (status.equals("200")) {
-                        String stringData = showDocument.getRawInformation();
+            public void onResponseCustom(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    String strData= response.body();
+                    if(strData!=null && !strData.isEmpty()){
                         Gson gson = new Gson();
                         Type type = new TypeToken<HashMap<String, String>>() {
                         }.getType();
-                        HashMap<String, String> hashMapData = gson.fromJson(stringData, type);
+                        HashMap<String, String> hashMapData = gson.fromJson(strData, type);
                         editTextNoiDen.setText(hashMapData.get("Destination"));
                         editTextMucDich.setText(hashMapData.get("Purpose"));
                         editTextNguoiDiKem.setText(hashMapData.get("AccompaniedPerson"));
@@ -118,13 +115,17 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
 
                         int i = adapterType.getPosition(hashMapData.get("ModeOfTransport"));
                         spinnerType.setSelection(i);
-                    } else
-                        Toast.makeText(ActivityFromWorkTravel.this, message, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(ActivityFromWorkTravel.this, "View document error", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(ActivityFromWorkTravel.this, "View document error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<ShowDocument> call, Throwable t) {
+            public void onFailureCustom(Call<String> call, Throwable t) {
                 Toast.makeText(ActivityFromWorkTravel.this, "showDocument onFailureCustom", Toast.LENGTH_SHORT).show();
             }
         });

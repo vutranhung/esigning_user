@@ -28,15 +28,15 @@ import vn.com.japfa.esigning_user.bringout.ActivityFromBringOut_;
 import vn.com.japfa.esigning_user.exitform.ActivityFromExit_;
 import vn.com.japfa.esigning_user.leaveform.ActivityFromLeaveForm_;
 import vn.com.japfa.esigning_user.models.DeleteDocResponse;
-import vn.com.japfa.esigning_user.models.DocumentDatum;
+import vn.com.japfa.esigning_user.models.Documents;
 import vn.com.japfa.esigning_user.vehiclerequest.ActivityFromVehicleRequest_;
 import vn.com.japfa.esigning_user.worktravel.ActivityFromWorkTravel_;
 
 
 //adapter
 public class AdapterDocuments extends RecyclerView.Adapter<AdapterDocuments.ViewHolder> {
-    private List<DocumentDatum> list;
-    private List<DocumentDatum> mFilteredList;
+    private List<Documents> list;
+    private List<Documents> mFilteredList;
     private Activity context;
     private Refresh refresh;
 
@@ -44,7 +44,7 @@ public class AdapterDocuments extends RecyclerView.Adapter<AdapterDocuments.View
         this.refresh = refresh;
     }
 
-    public AdapterDocuments(List<DocumentDatum> list, Activity context) {
+    public AdapterDocuments(List<Documents> list, Activity context) {
         this.list = list;
         this.mFilteredList = new ArrayList<>();
         if (list != null) {
@@ -60,16 +60,17 @@ public class AdapterDocuments extends RecyclerView.Adapter<AdapterDocuments.View
                 mFilteredList.clear();
                 if (TextUtils.isEmpty(text)) mFilteredList.addAll(list);
                 else {
-                    List<DocumentDatum> filteredList = new ArrayList<>();
+                    List<Documents> filteredList = new ArrayList<>();
 
-                    for (DocumentDatum documentDatum : list) {
-                        if (documentDatum.getDocumentNo().toLowerCase().contains(text.toLowerCase())
-                                || documentDatum.getDescription().toLowerCase().contains(text.toLowerCase())
-                                || documentDatum.getDocumentType().toLowerCase().contains(text.toLowerCase())
-                                || documentDatum.getStatus().toLowerCase().contains(text.toLowerCase())
-                                || documentDatum.getCreatedAt().toLowerCase().contains(text.toLowerCase())
+                    for (Documents Documents : list) {
+
+                        if (Documents.getDocumentNo().toLowerCase().contains(text.toLowerCase())
+                                || (Documents.getDescription()!=null && Documents.getDescription().toLowerCase().contains(text.toLowerCase()))
+                                || Documents.getDocumentType().toLowerCase().contains(text.toLowerCase())
+                                || Documents.getStatus().toLowerCase().contains(text.toLowerCase())
+                                || Documents.getCreatedAt().toLowerCase().contains(text.toLowerCase())
                         ) {
-                            filteredList.add(documentDatum);
+                            filteredList.add(Documents);
                         }
                     }
                     mFilteredList.addAll(filteredList);
@@ -187,26 +188,22 @@ public class AdapterDocuments extends RecyclerView.Adapter<AdapterDocuments.View
     }
 
     private void deleteDocument(String documentID) {
-        Call<DeleteDocResponse> call = BaseApp.service().delete(BaseApp.userID, documentID);
-        call.enqueue(new CallBackCustom<DeleteDocResponse>(context) {
+        Call<Void> call = BaseApp.service().delete(BaseApp.userID, documentID);
+        call.enqueue(new CallBackCustom<Void>(context) {
             @Override
-            public void onResponseCustom(Call<DeleteDocResponse> call, Response<DeleteDocResponse> response) {
-                if (response.body() != null) {
-                    DeleteDocResponse deleteDocResponse = response.body();
-                    if (deleteDocResponse.getResponseMeta() != null) {
-                        String status = deleteDocResponse.getResponseMeta().getStatusCode();
-                        String message = deleteDocResponse.getResponseMeta().getMessage();
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-                        if (status.equals("201")) {
-                            refresh.refreshSuccess(mFilteredList);
-                        }
-                    }
+            public void onResponseCustom(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    refresh.refreshSuccess(mFilteredList);
+                    Toast.makeText(context,"Delete record successful!",Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context,"Delete record error",Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<DeleteDocResponse> call, Throwable t) {
-
+            public void onFailureCustom(Call<Void> call, Throwable t) {
+                Toast.makeText(context,"Delete record error",Toast.LENGTH_SHORT).show();
             }
         });
 

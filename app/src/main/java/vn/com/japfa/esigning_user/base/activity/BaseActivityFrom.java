@@ -3,6 +3,7 @@ package vn.com.japfa.esigning_user.base.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.audiofx.DynamicsProcessing;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
@@ -108,25 +109,21 @@ public abstract class BaseActivityFrom extends BaseActivity {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Call<Documents> call = BaseApp.service().sendData(BaseApp.userID, BaseApp.documentID);
-                call.enqueue(new CallBackCustom<Documents>(BaseActivityFrom.this) {
+                Call<Void> call = BaseApp.service().sendData(BaseApp.userID, BaseApp.documentID);
+                call.enqueue(new CallBackCustom<Void>(BaseActivityFrom.this) {
                     @Override
-                    public void onResponseCustom(Call<Documents> call, Response<Documents> response) {
-                        Documents documents = response.body();
-                        if (documents != null) {
-                            String status = documents.getResponseMeta().getStatusCode();
-                            String message = documents.getResponseMeta().getMessage();
-                            if (status.equals("201")) {
-                                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-                                Intent intentMainActivity = new Intent(getApplicationContext(), ActivityDocuments_.class);
-                                startActivity(intentMainActivity);
-                            } else
-                               Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                    public void onResponseCustom(Call<Void> call, Response<Void> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(getApplicationContext(),"Send document successful", Toast.LENGTH_SHORT).show();
+                            Intent intentMainActivity = new Intent(getApplicationContext(), ActivityDocuments_.class);
+                            startActivity(intentMainActivity);
+                        }else {
+                            Toast.makeText(getApplicationContext(),"Send document error", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailureCustom(Call<Documents> call, Throwable t) {
+                    public void onFailureCustom(Call<Void> call, Throwable t) {
                        Toast.makeText(getApplicationContext(), "sendDocument error "+t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -174,25 +171,23 @@ public abstract class BaseActivityFrom extends BaseActivity {
                 call.enqueue(new CallBackCustom<Documents>(BaseActivityFrom.this) {
                     @Override
                     public void onResponseCustom(Call<Documents> call, Response<Documents> response) {
-                        Documents documents = response.body();
-                        if (documents != null) {
-                            String statusCode = documents.getResponseMeta().getStatusCode();
-                            String message = documents.getResponseMeta().getMessage();
 
-                            if (statusCode.equals("201")) {
-                                //refresh documentID,status,menu,signFollow...
-                                List<DocumentDatum> documentDatumList = documents.getDocumentData();
-                                if (documentDatumList != null) {
-                                    if (BaseApp.documentID == null) {
-                                        BaseApp.documentID = documentDatumList.get(0).getId() + "";
-                                        BaseApp.status = documentDatumList.get(0).getStatus();
-                                    } else BaseApp.status = documentDatumList.get(0).getStatus();
-                                    checkListSignFollow();  //refresh list sign follow
-                                    supportInvalidateOptionsMenu();   //refresh menu
-                                }
-                            } else {
-                               Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        if(response.isSuccessful()){
+                            Documents documents = response.body();
+                            if (documents != null){
+                                if (BaseApp.documentID == null) {
+                                    BaseApp.documentID = documents.getId() + "";
+                                    BaseApp.status = documents.getStatus();
+                                } else BaseApp.status = documents.getStatus();
+                                checkListSignFollow();  //refresh list sign follow
+                                supportInvalidateOptionsMenu();   //refresh menu
+                                Toast.makeText(getApplicationContext(), "Create document successful", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getApplicationContext(), "Create document error", Toast.LENGTH_SHORT).show();
                             }
+
+                        }else {
+                            Toast.makeText(getApplicationContext(), "Create document error", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -222,33 +217,35 @@ public abstract class BaseActivityFrom extends BaseActivity {
 
     @AfterViews
     protected void checkListSignFollow() {
-        Call<SignFollow> call;
-        if (BaseApp.documentID != null) {
+        Call<List<SignFollow>> call;
+        if (BaseApp.documentID!=null && !BaseApp.documentID.isEmpty()) {
             call = BaseApp.service().getListSignFollowDetail(BaseApp.userID, BaseApp.documentID);
         } else {
-            call = BaseApp.service().getListSignFollow(BaseApp.userID, BaseApp.type);
+            call = BaseApp.service().getListSignFollowByType(BaseApp.userID, BaseApp.type);
         }
 
         recyclerListSigner = BaseApp.createRecycler(getApplicationContext(), recyclerListSigner);
 
-        call.enqueue(new CallBackCustom<SignFollow>(this) {
+        call.enqueue(new CallBackCustom<List<SignFollow>>(this) {
             @Override
-            public void onResponseCustom(Call<SignFollow> call, Response<SignFollow> response) {
-                SignFollow signFollow = response.body();
-                if (signFollow != null) {
-                    String status = signFollow.getResponseMeta().getStatusCode();
-                    String message = signFollow.getResponseMeta().getMessage();
-                    if (status.equals("200")) {
-                        List<SignFollowDatum> list = signFollow.getSignFollowData();
+            public void onResponseCustom(Call<List<SignFollow>> call, Response<List<SignFollow>> response) {
+
+                if(response.isSuccessful()){
+                    if(response.body()!=null){
+                        List<SignFollow> list = response.body();
                         AdapterListSigners adapterListSigners = new AdapterListSigners(BaseActivityFrom.this, list);
                         recyclerListSigner.setAdapter(adapterListSigners);
-                    } else
-                       Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),"Get list signer error",Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(getApplicationContext(),"Get list signer error",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailureCustom(Call<SignFollow> call, Throwable t) {
+            public void onFailureCustom(Call<List<SignFollow>> call, Throwable t) {
                Toast.makeText(getApplicationContext(), "getListSignFollow error", Toast.LENGTH_SHORT).show();
             }
         });

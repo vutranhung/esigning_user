@@ -19,22 +19,22 @@ public class AnnualLeave {
     @SerializedName("To2")
     @Expose
     private String to2;
-    @SerializedName("created_date")
+    @SerializedName("CREATED_DATE")
     @Expose
     private String createdDate;
-    @SerializedName("current_number_days_leave")
+    @SerializedName("CURRENT_NUMBER_DAYS_LEAVE")
     @Expose
     private Float currentNumberDaysLeave;
-    @SerializedName("current_year_rest")
+    @SerializedName("CURRENT_YEAR_REST")
     @Expose
     private Float currentYearRest;
-    @SerializedName("document_id")
+    @SerializedName("DOCUMENT_ID")
     @Expose
     private Integer documentId;
-    @SerializedName("from_time_1")
+    @SerializedName("FROM_TIME_1")
     @Expose
     private String fromTime1;
-    @SerializedName("from_time_2")
+    @SerializedName("FROM_TIME_2")
     @Expose
     private String fromTime2;
     @SerializedName("id")
@@ -43,19 +43,19 @@ public class AnnualLeave {
     @SerializedName("is_send")
     @Expose
     private Integer isSend;
-    @SerializedName("last_year_rest")
+    @SerializedName("LAST_YEAR_REST")
     @Expose
     private Integer lastYearRest;
-    @SerializedName("to_time_1")
+    @SerializedName("TO_TIME_1")
     @Expose
     private String toTime1;
-    @SerializedName("to_time_2")
+    @SerializedName("TO_TIME_2")
     @Expose
     private String toTime2;
-    @SerializedName("total_current_year")
+    @SerializedName("TOTAL_CURRENT_YEAR")
     @Expose
     private Integer totalCurrentYear;
-    @SerializedName("total_days_leave_this_year")
+    @SerializedName("TOTAL_DAYS_LEAVE_THIS_YEAR")
     @Expose
     private Float totalDaysLeaveThisYear;
     @SerializedName("txtDayWillTake1")
@@ -64,7 +64,7 @@ public class AnnualLeave {
     @SerializedName("txtDayWillTake2")
     @Expose
     private String txtDayWillTake2;
-    @SerializedName("type_of_leave")
+    @SerializedName("TYPE_OF_LEAVE")
     @Expose
     private String typeOfLeave;
     @SerializedName("userLocation")
@@ -76,7 +76,7 @@ public class AnnualLeave {
     @SerializedName("userPosition")
     @Expose
     private Object userPosition;
-    @SerializedName("user_id")
+    @SerializedName("USER_ID")
     @Expose
     private Integer userId;
 

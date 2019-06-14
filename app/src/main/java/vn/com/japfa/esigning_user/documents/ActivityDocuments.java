@@ -225,27 +225,30 @@ public class ActivityDocuments extends AppCompatActivity implements Refresh {
     }
 
     private void getListDocuments() {
-        Call<Documents> call = BaseApp.service().getListDocuments(BaseApp.userID);
-        call.enqueue(new CallBackCustom<Documents>(this) {
+        Call<List<Documents>> call = BaseApp.service().getListDocuments(BaseApp.userID);
+        call.enqueue(new CallBackCustom<List<Documents>>(this) {
             @Override
-            public void onResponseCustom(Call<Documents> call, Response<Documents> response) {
-                Documents documents = response.body();
-                if (documents != null) {
-                    String statusCode = documents.getResponseMeta().getStatusCode();
-                    String message = documents.getResponseMeta().getMessage();
-                    if (statusCode.equals("200")) {
-                        List<DocumentDatum> listDocuments = documents.getDocumentData();
+            public void onResponseCustom(Call<List<Documents>> call, Response<List<Documents>> response) {
+
+                if(response.isSuccessful()){
+                    List<Documents> listDocuments = response.body();
+                    if(listDocuments!=null){
+
                         adapter = new AdapterDocuments(listDocuments, ActivityDocuments.this);
                         recyclerView.setAdapter(adapter);
                         adapter.setRefresh(ActivityDocuments.this);
-                    } else {
-                        Toast.makeText(ActivityDocuments.this, message, Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(ActivityDocuments.this,"Get list documents error", Toast.LENGTH_SHORT).show();
                     }
+
+                }else {
+                    Toast.makeText(ActivityDocuments.this,"Get list documents error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<Documents> call, Throwable t) {
+            public void onFailureCustom(Call<List<Documents>> call, Throwable t) {
                 Toast.makeText(ActivityDocuments.this, "Check on your Internet connection and try again.(getListDocuments error)", Toast.LENGTH_SHORT).show();
 
             }
@@ -267,7 +270,7 @@ public class ActivityDocuments extends AppCompatActivity implements Refresh {
     }
 
     @Override
-    public void refreshSuccess(List<DocumentDatum> listDocuments) {
+    public void refreshSuccess(List<Documents> listDocuments) {
         getListDocuments();
     }
     //endregion

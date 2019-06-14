@@ -1,4 +1,0 @@
-#Mon May 13 14:46:53 ICT 2019
-base.0=/home/user/Development/appsandroid/esigning_user/app/build/intermediates/transforms/r8/release/0
-path.0=classes.dex
-renamed.0=classes.dex

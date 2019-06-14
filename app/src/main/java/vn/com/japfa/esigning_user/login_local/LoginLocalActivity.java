@@ -46,7 +46,10 @@ import vn.com.japfa.esigning_user.R;
 import vn.com.japfa.esigning_user.base.BaseApp;
 import vn.com.japfa.esigning_user.base.CallBackCustom;
 import vn.com.japfa.esigning_user.documents.ActivityDocuments_;
+import vn.com.japfa.esigning_user.models.MTRelease;
 import vn.com.japfa.esigning_user.models.User;
+import vn.com.japfa.esigning_user.util.Constant;
+import vn.com.japfa.esigning_user.util.UtilHelper;
 
 @EActivity
 public class LoginLocalActivity extends AppCompatActivity {
@@ -62,6 +65,7 @@ public class LoginLocalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_local);
         setTitle("Login");
             requestPermissions();
+        UtilHelper.getValueProperty(this);
     }
 
     @Override
@@ -105,6 +109,7 @@ public class LoginLocalActivity extends AppCompatActivity {
     @Click
     protected void button_Login() {
         saveAccount();
+        BaseApp.version="3.6";
         if (BaseApp.version.equals("")) {
             checkVersionAndUpdate();
         } else {
@@ -117,23 +122,26 @@ public class LoginLocalActivity extends AppCompatActivity {
         }
     }
 
-    private void login() {
+    private void login(){
+
         Call<User> call = BaseApp.service().login(userName);
 
         call.enqueue(new CallBackCustom<User>(this) {
             @Override
             public void onResponseCustom(Call<User> call, Response<User> response) {
-                if (response.body() != null) {
-                    String statusCode = response.body().getResponseMeta().getStatusCode();
-                    String message = response.body().getResponseMeta().getMessage();
-                    if (statusCode.equals("200")) {
-                        Intent intent = new Intent(LoginLocalActivity.this, ActivityDocuments_.class);
-                        BaseApp.userID = response.body().getLoginUser().getId();
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(LoginLocalActivity.this, message, Toast.LENGTH_SHORT).show();
-                    }
-                }
+
+                 if(response.isSuccessful()){
+                     if(response.body()!=null){
+                         Intent intent=new Intent(LoginLocalActivity.this, ActivityDocuments_.class);
+                         BaseApp.userID=response.body().getID();
+                         startActivity(intent);
+                     }else{
+                         Toast.makeText(LoginLocalActivity.this,"Login Error",Toast.LENGTH_SHORT).show();
+                     }
+                 }else {
+                     Toast.makeText(LoginLocalActivity.this,"Login Error",Toast.LENGTH_SHORT).show();
+                 }
+
             }
 
             @Override
@@ -349,21 +357,28 @@ public class LoginLocalActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Service service = retrofit.create(Service.class);
-        Call<String> call = service.checkVersionAndUpdate();
+        Call<MTRelease> call = service.checkVersionAndUpdate(Constant.APP_NAME_VALUE);
 
-        call.enqueue(new CallBackCustom<String>(this) {
+        call.enqueue(new CallBackCustom<MTRelease>(this) {
             @Override
-            public void onResponseCustom(Call<String> call, Response<String> response) {
-                if (response.body() != null) {
-                    BaseApp.version = response.body();
-                    if (!BaseApp.version.equals(versionLocal)) {
-                        downloadAndInstall();
+            public void onResponseCustom(Call<MTRelease> call, Response<MTRelease> response) {
+                if(response.isSuccessful()){
+                    MTRelease mtRelease=response.body();
+                    if(mtRelease!=null ){
+                        if(mtRelease.getCURRENTVERSION().toString().equals(versionLocal)){
+                            downloadAndInstall();
+                        }
+                    }else {
+                        Toast.makeText(LoginLocalActivity.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
                     }
+
+                }else {
+                    Toast.makeText(LoginLocalActivity.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailureCustom(Call<String> call, Throwable t) {
+            public void onFailureCustom(Call<MTRelease> call, Throwable t) {
                 Toast.makeText(LoginLocalActivity.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
             }
         });

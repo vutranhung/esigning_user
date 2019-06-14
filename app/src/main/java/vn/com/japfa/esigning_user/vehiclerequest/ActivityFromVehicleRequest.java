@@ -54,38 +54,41 @@ public class ActivityFromVehicleRequest extends BaseActivityFrom {
 
     @Override
     public void showDocument() {
-        Call<ShowDocument> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
+        Call<String> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
 
-        call.enqueue(new CallBackCustom<ShowDocument>(this) {
+        call.enqueue(new CallBackCustom<String>(this) {
             @Override
-            public void onResponseCustom(Call<ShowDocument> call, Response<ShowDocument> response) {
-                ShowDocument showDocument = response.body();
-                String status = showDocument.getResponseMeta().getStatusCode();
-                String message = showDocument.getResponseMeta().getMessage();
-                if (status.equals("200")) {
-                    String stringData = showDocument.getRawInformation();
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<HashMap<String, String>>() {
-                    }.getType();
-                    HashMap<String, String> hashMapData = gson.fromJson(stringData, type);
-                    editTextNoiBatDauVehicle.setText(hashMapData.get("Destination"));
-                    editTextNoiDenVehicle.setText(hashMapData.get("Arrival"));
-                    editTextMucDichVehicle.setText(hashMapData.get("Purpose"));
-                    editTextDateFromVehicle.setText(hashMapData.get("FromDate"));
-                    editTextDateToVehicle.setText(hashMapData.get("ToDate"));
-                    editTextFromTimeVehicle.setText(hashMapData.get("FromTime"));
-                    editTextToTimeVehicle.setText(hashMapData.get("ToTime"));
-                    editTextMieuTaVehicle.setText(hashMapData.get("documentDesc"));
+            public void onResponseCustom(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    String strData= response.body();
+                    if(strData!=null && !strData.isEmpty()){
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<HashMap<String, String>>() {
+                        }.getType();
+                        HashMap<String, String> hashMapData = gson.fromJson(strData, type);
+                        editTextNoiBatDauVehicle.setText(hashMapData.get("Destination"));
+                        editTextNoiDenVehicle.setText(hashMapData.get("Arrival"));
+                        editTextMucDichVehicle.setText(hashMapData.get("Purpose"));
+                        editTextDateFromVehicle.setText(hashMapData.get("FromDate"));
+                        editTextDateToVehicle.setText(hashMapData.get("ToDate"));
+                        editTextFromTimeVehicle.setText(hashMapData.get("FromTime"));
+                        editTextToTimeVehicle.setText(hashMapData.get("ToTime"));
+                        editTextMieuTaVehicle.setText(hashMapData.get("documentDesc"));
 
-                    int i = adapterXeYeuCauVehicle.getPosition(hashMapData.get("Purpose"));
-                    spinnerXeYeuCauVehicle.setSelection(i);
+                        int i = adapterXeYeuCauVehicle.getPosition(hashMapData.get("Purpose"));
+                        spinnerXeYeuCauVehicle.setSelection(i);
+                    }else {
+                        Toast.makeText(ActivityFromVehicleRequest.this, "View document error", Toast.LENGTH_SHORT).show();
+                    }
 
-                } else
-                    Toast.makeText(ActivityFromVehicleRequest.this, message, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(ActivityFromVehicleRequest.this, "View document error", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
-            public void onFailureCustom(Call<ShowDocument> call, Throwable t) {
+            public void onFailureCustom(Call<String> call, Throwable t) {
                 Toast.makeText(ActivityFromVehicleRequest.this, "showDocument error", Toast.LENGTH_SHORT).show();
             }
         });

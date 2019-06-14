@@ -126,35 +126,37 @@ public class ActivityFromExit extends BaseActivityFrom {
 
     @Override
     public void showDocument() {
-        Call<ShowDocument> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
+        Call<String> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
 
-        call.enqueue(new CallBackCustom<ShowDocument>(this) {
+        call.enqueue(new CallBackCustom<String>(this) {
             @Override
-            public void onResponseCustom(Call<ShowDocument> call, Response<ShowDocument> response) {
-                ShowDocument showDocument = response.body();
-                String status = showDocument.getResponseMeta().getStatusCode();
-                String message = showDocument.getResponseMeta().getMessage();
-                if (status.equals("200")) {
-                    String stringData = showDocument.getRawInformation();
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<HashMap<String, String>>() {
-                    }.getType();
-                    HashMap<String, String> hashMapData = gson.fromJson(stringData, type);
-                    editTextNoiDenExit.setText(hashMapData.get("Destination"));
-                    editTextLyDoEdit.setText(hashMapData.get("Reason"));
-                    editTextDate.setText(hashMapData.get("FromDate"));
-                    editTextFromTimeEdit.setText(hashMapData.get("FromTime"));
-                    editTextToTimeEdit.setText(hashMapData.get("ToTime"));
-                    editTextMieuTaEdit.setText(hashMapData.get("documentDesc"));
+            public void onResponseCustom(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    String strData = response.body();
+                    if(strData!=null && !strData.isEmpty()){
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<HashMap<String, String>>() {
+                        }.getType();
+                        HashMap<String, String> hashMapData = gson.fromJson(strData, type);
+                        editTextNoiDenExit.setText(hashMapData.get("Destination"));
+                        editTextLyDoEdit.setText(hashMapData.get("Reason"));
+                        editTextDate.setText(hashMapData.get("FromDate"));
+                        editTextFromTimeEdit.setText(hashMapData.get("FromTime"));
+                        editTextToTimeEdit.setText(hashMapData.get("ToTime"));
+                        editTextMieuTaEdit.setText(hashMapData.get("documentDesc"));
 
-                    int i = adapterMucDichExit.getPosition(hashMapData.get("Purpose"));
-                    spinnerMucDichExit.setSelection(i);
+                        int i = adapterMucDichExit.getPosition(hashMapData.get("Purpose"));
+                        spinnerMucDichExit.setSelection(i);
+                    }
 
-                } else Toast.makeText(ActivityFromExit.this, message, Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(ActivityFromExit.this, "View document error", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
-            public void onFailureCustom(Call<ShowDocument> call, Throwable t) {
+            public void onFailureCustom(Call<String> call, Throwable t) {
                 Toast.makeText(ActivityFromExit.this, "showDocument error", Toast.LENGTH_SHORT).show();
             }
         });

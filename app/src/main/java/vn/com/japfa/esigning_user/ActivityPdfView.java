@@ -1,15 +1,23 @@
 package vn.com.japfa.esigning_user;
 
 import android.os.Bundle;
+import android.renderscript.Element;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import vn.com.japfa.esigning_user.base.BaseApp;
@@ -47,27 +55,36 @@ public class ActivityPdfView extends AppCompatActivity {
 
     private void preview() {
 
-        Call<Preview> call = BaseApp.service().preview(BaseApp.userID, BaseApp.documentID);
+        Call<String> call = BaseApp.service().preview(BaseApp.userID, BaseApp.documentID);
 
-        call.enqueue(new CallBackCustom<Preview>(this) {
+        call.enqueue(new CallBackCustom<String>(this) {
             @Override
-            public void onResponseCustom(Call<Preview> call, Response<Preview> response) {
-                Preview preview = response.body();
-                if (preview != null) {
-                    String statusCode = preview.getResponseMeta().getStatusCode();
-                    String message = preview.getResponseMeta().getMessage();
-                    if (statusCode.equals("200")) {
-                        byte[] bytesdata = preview.getPdfData();
-                        PDFViewPreview.fromBytes(bytesdata)
-                                .load();
-                    } else {
-                        Toast.makeText(ActivityPdfView.this, message, Toast.LENGTH_SHORT).show();
+            public void onResponseCustom(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    try {
+
+                        String result =response.body();
+                        if(result!=null && !result.isEmpty()){
+                            byte[] data = Base64.decode(result, Base64.DEFAULT);
+
+                            if (data != null) {
+                                PDFViewPreview.fromBytes(data)
+                                        .load();
+                              }
+                        } else {
+                            Toast.makeText(ActivityPdfView.this, "Error preview document", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception ex) {
+
                     }
+
+                } else {
+                    Toast.makeText(ActivityPdfView.this, "Error preview document", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailureCustom(Call<Preview> call, Throwable t) {
+            public void onFailureCustom(Call<String> call, Throwable t) {
                 Toast.makeText(ActivityPdfView.this, "Check on your Internet connection and try again.(Preview error)", Toast.LENGTH_SHORT).show();
             }
         });

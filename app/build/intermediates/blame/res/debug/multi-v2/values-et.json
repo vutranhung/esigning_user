@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/user/Development/appsandroid/esigning_user/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-et/values-et.xml",
+            "outputFile": "D:\\Tungnd\\esigning_user\\app\\build\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-et\\values-et.xml",
             "map": [
                 {
-                    "source": "/home/user/.gradle/caches/transforms-2/files-2.1/66de212982fc4a942d80c695f068918f/res/values-et/values-et.xml",
+                    "source": "C:\\Users\\tung.nguyendang\\.gradle\\caches\\transforms-2\\files-2.1\\74f0bb38ba0d39b520d1f2d884721758\\res\\values-et\\values-et.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/user/.gradle/caches/transforms-2/files-2.1/78081f71b0d3cc9019c5d56a547d8e14/res/values-et/values-et.xml",
+                    "source": "C:\\Users\\tung.nguyendang\\.gradle\\caches\\transforms-2\\files-2.1\\afe5d30d9e504e3289c18c28aa01e24c\\res\\values-et\\values-et.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",

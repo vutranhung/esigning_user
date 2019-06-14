@@ -15,9 +15,11 @@ import vn.com.japfa.esigning_user.base.BaseApp;
 import vn.com.japfa.esigning_user.models.ActionSigner;
 import vn.com.japfa.esigning_user.base.CallBackCustom;
 import vn.com.japfa.esigning_user.models.SignActivityDatum;
+import vn.com.japfa.esigning_user.models.SignFollow;
 import vn.com.japfa.esigning_user.models.SignFollowDatum;
 import vn.com.japfa.esigning_user.Interface.Service;
 
+import java.lang.annotation.Repeatable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -28,9 +30,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class AdapterListSigners extends RecyclerView.Adapter<AdapterListSigners.ViewHolder> {
 
   private   Activity context;
-  private   List<SignFollowDatum> list;
+  private   List<SignFollow> list;
 
-    public AdapterListSigners(Activity context, java.util.List<SignFollowDatum> list) {
+    public AdapterListSigners(Activity context, java.util.List<SignFollow> list) {
         this.context = context;
         this.list = list;
     }
@@ -95,25 +97,26 @@ public class AdapterListSigners extends RecyclerView.Adapter<AdapterListSigners.
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Service service = retrofit.create(Service.class);
-        Call<ActionSigner> call = service.getActionSigner(signprocess_id);
-        call.enqueue(new CallBackCustom<ActionSigner>(context) {
+        Call<List<SignActivityDatum>> call = service.getActionSigner(signprocess_id);
+        call.enqueue(new CallBackCustom<List<SignActivityDatum>>(context) {
             @Override
-            public void onResponseCustom(Call<ActionSigner> call, Response<ActionSigner> response) {
-                ActionSigner actionSigner = response.body();
-                if (actionSigner != null) {
-                    String status = actionSigner.getResponseMeta().getStatusCode();
-                    String message = actionSigner.getResponseMeta().getMessage();
-                    if (status.equals("200")) {
-                        List<SignActivityDatum> list = actionSigner.getSignActivityData();
-                        if (list.size() > 0) {
-                            showDialogActionSigner(list);
-                        }
-                    }else Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            public void onResponseCustom(Call<List<SignActivityDatum>> call, Response<List<SignActivityDatum>> response) {
+                if(response.isSuccessful()){
+                    List<SignActivityDatum> lstData=response.body();
+                    if(lstData!=null){
+                        if(lstData.size()>0)
+                            showDialogActionSigner(lstData);
+                    }else {
+                        Toast.makeText(context, "Get list sign activities error", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(context, "Get list sign activities error", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
-            public void onFailureCustom(Call<ActionSigner> call, Throwable t) {
+            public void onFailureCustom(Call<List<SignActivityDatum>> call, Throwable t) {
                 Toast.makeText(context, "onFailureCustom", Toast.LENGTH_SHORT).show();
             }
         });

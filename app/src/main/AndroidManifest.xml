@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
+
         android:name=".base.BaseApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,20 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <!--<activity-->
-            <!--android:name=".ActivityLogin_"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:theme="@style/AppTheme_NoActionbar"-->
-            <!--android:windowSoftInputMode="stateHidden">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-
         <activity
-            android:name=".login_local.LoginLocalActivity_"
+            android:name=".ActivityLogin_"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme_NoActionbar"
             android:windowSoftInputMode="stateHidden">
@@ -44,6 +33,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--<activity-->
+            <!--android:name=".login_local.LoginLocalActivity_"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@style/AppTheme_NoActionbar"-->
+            <!--android:windowSoftInputMode="stateHidden">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
         <!--region base-->
         <activity

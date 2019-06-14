@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class DocumentsDatum {
 
-    @SerializedName("description")
+    @SerializedName("DESCRIPTION")
     @Expose
     private Object description;
     @SerializedName("docDescription")
@@ -17,13 +17,13 @@ public class DocumentsDatum {
     @SerializedName("documentType")
     @Expose
     private String documentType;
-    @SerializedName("document_id")
+    @SerializedName("DOCUMENT_ID")
     @Expose
     private String documentId;
-    @SerializedName("email")
+    @SerializedName("EMAIL")
     @Expose
     private Object email;
-    @SerializedName("is_viewed")
+    @SerializedName("IS_VIEWED")
     @Expose
     private Integer isViewed;
     @SerializedName("locationName")
@@ -47,7 +47,7 @@ public class DocumentsDatum {
     @SerializedName("userName")
     @Expose
     private String userName;
-    @SerializedName("verifycode")
+    @SerializedName("VERIFYCODE")
     @Expose
     private Object verifycode;
 

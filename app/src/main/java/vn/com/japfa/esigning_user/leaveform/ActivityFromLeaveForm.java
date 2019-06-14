@@ -42,6 +42,7 @@ import vn.com.japfa.esigning_user.models.AnnualLeave;
 import vn.com.japfa.esigning_user.models.AnnualLeaveResponse;
 import vn.com.japfa.esigning_user.base.CallBackCustom;
 import vn.com.japfa.esigning_user.models.ShowDocument;
+import vn.com.japfa.esigning_user.worktravel.ActivityFromWorkTravel;
 
 @EActivity
 public class ActivityFromLeaveForm extends BaseActivityFrom {
@@ -281,155 +282,161 @@ public class ActivityFromLeaveForm extends BaseActivityFrom {
 
     @Override
     public void showDocument() {
-        Call<ShowDocument> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
+        Call<String> call = BaseApp.service().editDocument(BaseApp.userID, BaseApp.documentID);
 
-        call.enqueue(new CallBackCustom<ShowDocument>(this) {
+        call.enqueue(new CallBackCustom<String>(this) {
             @Override
-            public void onResponseCustom(Call<ShowDocument> call, Response<ShowDocument> response) {
-                ShowDocument showDocument = response.body();
-                String status = showDocument.getResponseMeta().getStatusCode();
-                String message = showDocument.getResponseMeta().getMessage();
-                if (status.equals("200")) {
-                    String stringData = showDocument.getRawInformation();
-                    Gson gson = new Gson();
-                    Type type = new TypeToken<HashMap<String, String>>() {
-                    }.getType();
-                    HashMap<String, String> hashMapData = gson.fromJson(stringData, type);
+            public void onResponseCustom(Call<String> call, Response<String> response) {
 
-                    textViewTon.setText(hashMapData.get("TxtTotalLastYear"));
-                    textViewNgayNghi.setText(hashMapData.get("TxtDaysWillTake"));
-                    textViewNamNay.setText(hashMapData.get("TotalCurrentYear"));
-                    textViewDaNghi.setText(hashMapData.get("TxtTotalDaysTaken"));
-                    textViewConLai.setText(hashMapData.get("BalanceOfLeave"));
-                    editTextFromDate1.setText(BaseApp.convertDate(hashMapData.get("From1"), "view"));
-                    editTextToDate1.setText(BaseApp.convertDate(hashMapData.get("To1"), "view"));
-                    editTextFromDate2.setText(BaseApp.convertDate(hashMapData.get("From2"), "view"));
-                    editTextToDate2.setText(BaseApp.convertDate(hashMapData.get("To2"), "view"));
-                    autoCompleteTextViewtQty1.setText(hashMapData.get("txtDayWillTake1"));
-                    autoCompleteTextViewtQty2.setText(hashMapData.get("txtDayWillTake2"));
+                if (response.isSuccessful()) {
+                    String strData = response.body();
+                    if (strData!=null && !strData.isEmpty()) {
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<HashMap<String, String>>() {
+                        }.getType();
+                        HashMap<String, String> hashMapData = gson.fromJson(strData, type);
 
-
-                    int i = adapterType.getPosition(hashMapData.get("TypeOfLeave"));
-                    spinnerType.setSelection(i);
-                    editTextMieuTa.setText(hashMapData.get("documentDesc"));
-
-                    autoCompleteTextViewtQty1.addTextChangedListener(new TextWatcher() {
-                        Handler handler = new Handler();
-                        Runnable runnable;
-
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            handler.removeCallbacks(runnable);
-                        }
+                        textViewTon.setText(hashMapData.get("TxtTotalLastYear"));
+                        textViewNgayNghi.setText(hashMapData.get("TxtDaysWillTake"));
+                        textViewNamNay.setText(hashMapData.get("TotalCurrentYear"));
+                        textViewDaNghi.setText(hashMapData.get("TxtTotalDaysTaken"));
+                        textViewConLai.setText(hashMapData.get("BalanceOfLeave"));
+                        editTextFromDate1.setText(BaseApp.convertDate(hashMapData.get("From1"), "view"));
+                        editTextToDate1.setText(BaseApp.convertDate(hashMapData.get("To1"), "view"));
+                        editTextFromDate2.setText(BaseApp.convertDate(hashMapData.get("From2"), "view"));
+                        editTextToDate2.setText(BaseApp.convertDate(hashMapData.get("To2"), "view"));
+                        autoCompleteTextViewtQty1.setText(hashMapData.get("txtDayWillTake1"));
+                        autoCompleteTextViewtQty2.setText(hashMapData.get("txtDayWillTake2"));
 
 
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            runnable = new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (s.length() > 0) {
-                                        qty1 = s.toString();
-                                        createDocument();
-                                    }
-                                }
-                            };
+                        int i = adapterType.getPosition(hashMapData.get("TypeOfLeave"));
+                        spinnerType.setSelection(i);
+                        editTextMieuTa.setText(hashMapData.get("documentDesc"));
 
-                            handler.postDelayed(runnable, 0);
-                        }
-                    });
+                        autoCompleteTextViewtQty1.addTextChangedListener(new TextWatcher() {
+                            Handler handler = new Handler();
+                            Runnable runnable;
 
-                    autoCompleteTextViewtQty2.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                        @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                        }
-
-                        @Override
-                        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                        }
-
-                        @Override
-                        public void afterTextChanged(Editable s) {
-                            if (s.length() > 0) {
-                                qty2 = s.toString();
-                                createDocument();
                             }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                handler.removeCallbacks(runnable);
+                            }
+
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (s.length() > 0) {
+                                            qty1 = s.toString();
+                                            createDocument();
+                                        }
+                                    }
+                                };
+
+                                handler.postDelayed(runnable, 0);
+                            }
+                        });
+                        autoCompleteTextViewtQty2.addTextChangedListener(new TextWatcher() {
+
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                if (s.length() > 0) {
+                                    qty2 = s.toString();
+                                    createDocument();
+                                }
+                            }
+                        });
+
+                        editTextFromDate1.setEnabled(false);
+                        editTextFromDate2.setEnabled(false);
+                        autoCompleteTextViewtQty1.setEnabled(false);
+                        autoCompleteTextViewtQty2.setEnabled(false);
+                        editTextToDate1.setEnabled(false);
+                        editTextToDate2.setEnabled(false);
+                        editTextMieuTa.requestFocus();
+                        editTextMieuTa.requestFocusFromTouch();
+
+                        if (BaseApp.status.equals("New") || BaseApp.status.equals("Rejected")) {
+                            qty1 = hashMapData.get("txtDayWillTake1");
+                            qty2 = hashMapData.get("txtDayWillTake2");
+                            createDocument();
+                            editTextFromDate1.setEnabled(true);
+                            editTextFromDate2.setEnabled(true);
+                            autoCompleteTextViewtQty1.setEnabled(true);
+                            autoCompleteTextViewtQty2.setEnabled(true);
+                            editTextToDate1.setEnabled(true);
+                            editTextToDate2.setEnabled(true);
                         }
-                    });
 
 
-                    editTextFromDate1.setEnabled(false);
-                    editTextFromDate2.setEnabled(false);
-                    autoCompleteTextViewtQty1.setEnabled(false);
-                    autoCompleteTextViewtQty2.setEnabled(false);
-                    editTextToDate1.setEnabled(false);
-                    editTextToDate2.setEnabled(false);
-                    editTextMieuTa.requestFocus();
-                    editTextMieuTa.requestFocusFromTouch();
-
-                    if (BaseApp.status.equals("New") || BaseApp.status.equals("Rejected")) {
-                        qty1 = hashMapData.get("txtDayWillTake1");
-                        qty2 = hashMapData.get("txtDayWillTake2");
-                        createDocument();
-                        editTextFromDate1.setEnabled(true);
-                        editTextFromDate2.setEnabled(true);
-                        autoCompleteTextViewtQty1.setEnabled(true);
-                        autoCompleteTextViewtQty2.setEnabled(true);
-                        editTextToDate1.setEnabled(true);
-                        editTextToDate2.setEnabled(true);
+                    } else {
+                        Toast.makeText(ActivityFromLeaveForm.this, "View document error", Toast.LENGTH_SHORT).show();
                     }
 
-
-                } else Toast.makeText(ActivityFromLeaveForm.this, message, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ActivityFromLeaveForm.this, "View document error", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onFailureCustom(Call<ShowDocument> call, Throwable t) {
+            public void onFailureCustom(Call<String> call, Throwable t) {
                 Toast.makeText(ActivityFromLeaveForm.this, "showDocument error", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
     private void createDocument() {
-        Call<AnnualLeaveResponse> call = BaseApp.service().getAnnualLeaveByUserId(BaseApp.userID,
+        Call<AnnualLeave> call = BaseApp.service().getAnnualLeaveByUserId(BaseApp.userID,
                 BaseApp.convertDate(editTextFromDate1.getText().toString(), "send"),
                 qty1,
                 BaseApp.convertDate(editTextFromDate2.getText().toString(), "send"),
                 qty2,
                 typeOfLeave);
 
-        call.enqueue(new CallBackCustom<AnnualLeaveResponse>(this) {
+        call.enqueue(new CallBackCustom<AnnualLeave>(this) {
             @Override
-            public void onResponseCustom(Call<AnnualLeaveResponse> call, Response<AnnualLeaveResponse> response) {
-                AnnualLeaveResponse annualLeaveResponse = response.body();
-                String status = annualLeaveResponse != null ? annualLeaveResponse.getResponseMeta().getStatusCode() : "Error Status";
-                String message = annualLeaveResponse != null ? annualLeaveResponse.getResponseMeta().getMessage() : "Error Status";
-                if (status.equals("200")) {
-                    AnnualLeave annualLeave = annualLeaveResponse.getAnnualLeave();
-                    textViewTon.setText(annualLeave.getLastYearRest() + "");
-                    textViewNgayNghi.setText(annualLeave.getCurrentNumberDaysLeave() + "");
-                    textViewNamNay.setText(annualLeave.getTotalCurrentYear() + "");
-                    textViewDaNghi.setText(annualLeave.getTotalDaysLeaveThisYear() + "");
-                    textViewConLai.setText(annualLeave.getCurrentYearRest() + "");
+            public void onResponseCustom(Call<AnnualLeave> call, Response<AnnualLeave> response) {
 
-                    editTextToDate1.setText(BaseApp.convertDate(annualLeave.getTo1(), "view"));
-                    editTextToDate2.setText(BaseApp.convertDate(annualLeave.getTo2(), "view"));
-                    editTextFromDate1.setText(BaseApp.convertDate(annualLeave.getFrom1(), "view"));
-                    editTextFromDate2.setText(BaseApp.convertDate(annualLeave.getFrom2(), "view"));
+                if(response.isSuccessful()){
+                    AnnualLeave annualLeave = response.body();
+                    if(annualLeave!=null){
+                        textViewTon.setText(annualLeave.getLastYearRest() + "");
+                        textViewNgayNghi.setText(annualLeave.getCurrentNumberDaysLeave() + "");
+                        textViewNamNay.setText(annualLeave.getTotalCurrentYear() + "");
+                        textViewDaNghi.setText(annualLeave.getTotalDaysLeaveThisYear() + "");
+                        textViewConLai.setText(annualLeave.getCurrentYearRest() + "");
 
-                } else Toast.makeText(ActivityFromLeaveForm.this, message, Toast.LENGTH_SHORT).show();
+                        editTextToDate1.setText(BaseApp.convertDate(annualLeave.getTo1(), "view"));
+                        editTextToDate2.setText(BaseApp.convertDate(annualLeave.getTo2(), "view"));
+                        editTextFromDate1.setText(BaseApp.convertDate(annualLeave.getFrom1(), "view"));
+                        editTextFromDate2.setText(BaseApp.convertDate(annualLeave.getFrom2(), "view"));
+                    }else {
+                        Toast.makeText(ActivityFromLeaveForm.this,"Get annual leave error" , Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(ActivityFromLeaveForm.this, "Get annual leave error", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
-            public void onFailureCustom(Call<AnnualLeaveResponse> call, Throwable t) {
+            public void onFailureCustom(Call<AnnualLeave> call, Throwable t) {
                 Toast.makeText(ActivityFromLeaveForm.this, "createDocument error", Toast.LENGTH_SHORT).show();
             }
         });
