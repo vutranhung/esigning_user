@@ -113,7 +113,7 @@ public class AdapterDocuments extends RecyclerView.Adapter<AdapterDocuments.View
         holder.textViewType.setText(mFilteredList.get(position).getDocumentType());
         holder.textViewStatus.setText("(" + status + ")");
         holder.textViewLyDo.setText(mFilteredList.get(position).getDescription());
-        holder.textViewDate.setText(mFilteredList.get(position).getCreatedAt());
+        holder.textViewDate.setText(BaseApp.formatViewDateString(mFilteredList.get(position).getCreatedAt()));
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override

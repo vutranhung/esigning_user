@@ -57,7 +57,7 @@ public class LoginLocalActivity extends AppCompatActivity {
     private String userName, password;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditer;
-    private String versionLocal = "3.6";
+    private String versionLocal = "1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class LoginLocalActivity extends AppCompatActivity {
     @Click
     protected void button_Login() {
         saveAccount();
-        BaseApp.version="3.6";
+        BaseApp.version="1";
         if (BaseApp.version.equals("")) {
             checkVersionAndUpdate();
         } else {
@@ -242,7 +242,7 @@ public class LoginLocalActivity extends AppCompatActivity {
     //region auto update
     private void downloadAndInstall() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Service.base_URL)
+                .baseUrl(Constant.DOWNLOAD_FILE_URL_VALUE)
                 .build();
         Service service = retrofit.create(Service.class);
         Call<ResponseBody> call = service.download();
@@ -352,8 +352,10 @@ public class LoginLocalActivity extends AppCompatActivity {
     }
 
     private void checkVersionAndUpdate() {
+
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Service.base_URL)
+                .baseUrl(Constant.SERVICE_URL_VALUE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Service service = retrofit.create(Service.class);
@@ -365,9 +367,13 @@ public class LoginLocalActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     MTRelease mtRelease=response.body();
                     if(mtRelease!=null ){
-                        if(mtRelease.getCURRENTVERSION().toString().equals(versionLocal)){
-                            downloadAndInstall();
+                        if(mtRelease.getCURRENTVERSION()!=null){
+                            Integer curVersion= Math.round(mtRelease.getCURRENTVERSION());
+                            if(!curVersion.toString().equals(versionLocal)){
+                                downloadAndInstall();
+                            }
                         }
+
                     }else {
                         Toast.makeText(LoginLocalActivity.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
                     }

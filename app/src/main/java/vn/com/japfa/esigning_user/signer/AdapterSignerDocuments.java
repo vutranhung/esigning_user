@@ -57,12 +57,10 @@ public class AdapterSignerDocuments extends RecyclerView.Adapter<AdapterSignerDo
         holder.textViewDate.setText(mFilteredList.get(position).getRecievedAt());
         holder.textViewStatus.setText(mFilteredList.get(position).getStatusApproval());
         String lyDo = mFilteredList.get(position).getDocDescription();
-        if (!lyDo.equals("")) {
-            holder.textViewLyDo.setText(lyDo);
-        } else {
+        if(lyDo==null || lyDo.isEmpty()){
             holder.textViewLyDo.setText("");
-        }
-
+        }else
+            holder.textViewLyDo.setText(lyDo);
 
         holder.setItemClickListener(new ItemClickListener() {
             @Override

@@ -9,6 +9,7 @@ import org.androidannotations.annotations.ViewById;
 import vn.com.japfa.esigning_user.R;
 import vn.com.japfa.esigning_user.base.BaseApp;
 import vn.com.japfa.esigning_user.base.activity.BaseActivityPopup;
+import vn.com.japfa.esigning_user.util.Constant;
 
 
 @EActivity
@@ -18,7 +19,7 @@ public class ActivitySetting extends BaseActivityPopup {
     public void setContentView(int layoutResID) {
         super.setContentView(layoutResID);
         setLayout(R.layout.setting_activity);
-        setTitle("Setting");
+        setTitle("Info");
     }
 
     @ViewById
@@ -26,7 +27,7 @@ public class ActivitySetting extends BaseActivityPopup {
 
     @AfterViews
     protected void createView() {
-        textViewVersion.setText(BaseApp.version);
+        textViewVersion.setText(Constant.VERSION_VALUE);
     }
 
 

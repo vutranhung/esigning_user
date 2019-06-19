@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import vn.com.japfa.esigning_user.base.BaseApp;
+
 public class Documents {
 
     @SerializedName("CREATED_AT")
@@ -33,6 +35,7 @@ public class Documents {
     private String status;
 
     public String getCreatedAt() {
+       // return BaseApp.formatViewDateString(createdAt);
         return createdAt;
     }
 

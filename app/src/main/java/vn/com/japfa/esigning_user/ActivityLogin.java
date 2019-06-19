@@ -2,7 +2,9 @@ package vn.com.japfa.esigning_user;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -32,7 +34,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,6 +66,7 @@ public class ActivityLogin extends AppCompatActivity {
     private static final String CLIENT_ID = "d14ca098-eb8e-4cbb-a748-09ff6035c55f";
     private static final String RESOURCE_ID = "https://graph.microsoft.com/";
     private static final String REDIRECT_URI = "http://localhost";
+    //private static final String REDIRECT_URI = "http://10.0.2.2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +100,7 @@ public class ActivityLogin extends AppCompatActivity {
 
     private void login() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Service.base_URL)
+                .baseUrl(Constant.SERVICE_URL_VALUE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -171,7 +176,8 @@ public class ActivityLogin extends AppCompatActivity {
     //region auto update
     private void downloadAndInstall() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Service.base_URL)
+                //.baseUrl(Service.base_URL_Download)
+                .baseUrl(Constant.DOWNLOAD_FILE_URL_VALUE)
                 .build();
         Service service = retrofit.create(Service.class);
         Call<ResponseBody> call = service.download();
@@ -281,9 +287,24 @@ public class ActivityLogin extends AppCompatActivity {
     }
 
     private void checkVersionAndUpdate() {
+        //get share preference
+//        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+//        boolean isFirtsLauncher = sharedPreferences.getBoolean("IS_FIRTS_LAUNCHER",true);
+//        int highScore = sharedPreferences.getInt("HIGH_SCORE",0);
+//        float mark = sharedPreferences.getFloat("MARK",0.0f);
+//        long downloadProgress = sharedPreferences.getLong("DOWNLOAD_PROGRESS",0);
+//        String name = sharedPreferences.getString("NAME","");
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(200, TimeUnit.SECONDS)
+                .readTimeout(200, TimeUnit.SECONDS)
+                .writeTimeout(200, TimeUnit.SECONDS)
+                .build();
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Service.base_URL)
+                .baseUrl(Constant.SERVICE_URL_VALUE)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         Service service = retrofit.create(Service.class);
         Call<MTRelease> call = service.checkVersionAndUpdate(Constant.APP_NAME_VALUE);
@@ -294,11 +315,17 @@ public class ActivityLogin extends AppCompatActivity {
                 if(response.isSuccessful()){
                     MTRelease mtRelease=response.body();
                     if(mtRelease!=null ){
-                        if(!mtRelease.getCURRENTVERSION().toString().equals(versionLocal)){
-                            downloadAndInstall();
-                        }else {
-                            loginMicrosoft();
+                        if(mtRelease.getCURRENTVERSION()!=null){
+
+                            Integer curVersion= Math.round(mtRelease.getCURRENTVERSION());
+                          //  if(!curVersion.toString().equals(versionLocal)){
+                            if(!curVersion.toString().equals(Constant.VERSION_VALUE)){
+                                downloadAndInstall();
+                            }else {
+                                loginMicrosoft();
+                            }
                         }
+
                     }else {
                         Toast.makeText(ActivityLogin.this, "Check internet - Version_esigning error", Toast.LENGTH_SHORT).show();
                     }

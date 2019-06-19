@@ -39,6 +39,7 @@ import vn.com.japfa.esigning_user.base.setting.ActivitySetting_;
 import vn.com.japfa.esigning_user.bringout.ActivityFromBringOut_;
 import vn.com.japfa.esigning_user.exitform.ActivityFromExit_;
 import vn.com.japfa.esigning_user.leaveform.ActivityFromLeaveForm_;
+import vn.com.japfa.esigning_user.login_local.LoginLocalActivity_;
 import vn.com.japfa.esigning_user.models.DocumentDatum;
 import vn.com.japfa.esigning_user.models.Documents;
 import vn.com.japfa.esigning_user.signer.ActivitySignerDocuments_;
@@ -287,7 +288,8 @@ public class ActivityDocuments extends AppCompatActivity implements Refresh {
         // Add data to the intent, the receiving app will decide
         // what to do with it.
         share.putExtra(Intent.EXTRA_SUBJECT, "Title Of The Post");
-        share.putExtra(Intent.EXTRA_TEXT, "http://apps.japfa.com.vn:62040/Apps/esigninguser.apk");
+
+        share.putExtra(Intent.EXTRA_TEXT, "http://apps.japfa.com.vn:62059/Apps/esigninguser.apk");
 
         startActivity(Intent.createChooser(share, "Share application link!"));
     }

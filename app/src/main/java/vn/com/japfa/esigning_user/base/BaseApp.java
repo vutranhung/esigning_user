@@ -57,11 +57,14 @@ public class BaseApp extends Application {
     public static String type;
     public static String version;
 
+//   public static  String base_URL_Download = Constant.DOWNLOAD_FILE_URL_VALUE;
+//   public static   String base_URL = Constant.SERVICE_URL_VALUE;
+
     public static String convertDate(String dateString, String check) {
         Date date;
         String result = "null";
         if (check.equals("send")) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy h:mm a",Locale.ENGLISH);  //co the thay Z ban X trong android 7 tro len
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm a",Locale.ENGLISH);  //co the thay Z ban X trong android 7 tro len
             try {
                 date = simpleDateFormat.parse(dateString);
                 result = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH).format(date.getTime());
@@ -73,13 +76,30 @@ public class BaseApp extends Application {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss",Locale.ENGLISH);  //co the thay Z ban X trong android 7 tro len
             try {
                 date = simpleDateFormat.parse(dateString);
-                result = new SimpleDateFormat("dd-MMM-yyyy h:mm a",Locale.ENGLISH).format(date.getTime());
+                result = new SimpleDateFormat("dd-MMM-yyyy hh:mm a",Locale.ENGLISH).format(date.getTime());
             } catch (ParseException e) {
                 return result;
             }
 
         }
         return result;
+    }
+
+    public static  String formatViewDateString(String dateString){
+        String result="";
+        Date date;
+        if(dateString.isEmpty()|| dateString==null)
+            return result;
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            date = simpleDateFormat.parse(dateString);
+            result = new SimpleDateFormat("dd-MM-yyyy hh:mm a").format(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return  result;
     }
 
     public static String getDateCurrent() {

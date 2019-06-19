@@ -53,6 +53,7 @@ public class UtilHelper {
             Constant.SERVICE_URL_VALUE = properties.getProperty(Constant.SERVICE_URL_PROPERTY);
             Constant.APP_NAME_VALUE=properties.getProperty(Constant.APP_NAME_PROPERTY);
             Constant.DOWNLOAD_FILE_URL_VALUE=properties.getProperty(Constant.DOWNLOAD_FILE_URL_PROPERTY);
+            Constant.VERSION_VALUE=properties.getProperty(Constant.VERSION_PROPERTY);
         }catch (Exception ex){
             Toast.makeText(context, "Không đọc được file cấu hình config.properties", Toast.LENGTH_LONG);
         }

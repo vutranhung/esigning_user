@@ -64,7 +64,7 @@ public class ActivityFromLeaveForm extends BaseActivityFrom {
             Calendar calendar = Calendar.getInstance(Locale.ENGLISH);
             calendar.set(Calendar.HOUR_OF_DAY, 8);
             calendar.set(Calendar.MINUTE, 0);
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy h:mm a", Locale.ENGLISH);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.ENGLISH);
             String date = simpleDateFormat.format(calendar.getTime());
             editTextFromDate1.setText(date);
             editTextFromDate2.setText(date);
@@ -209,7 +209,7 @@ public class ActivityFromLeaveForm extends BaseActivityFrom {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         date.set(Calendar.MINUTE, minute);
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy h:mm a", Locale.ENGLISH);
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.ENGLISH);
                         editTextFromDate1.setText(simpleDateFormat.format(date.getTime()));
                         createDocument();
 

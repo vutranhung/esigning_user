@@ -36,7 +36,7 @@ import vn.com.japfa.esigning_user.util.Constant;
 
 public interface Service {
     //String base_URL = "http://apps.japfa.com.vn:62040/";
-    String base_URL = Constant.DOWNLOAD_FILE_URL_VALUE;
+
     //region login and update
    /* @POST("RestService.svc/loginWithAuthentication")
     Call<User> login(@Query("username") String user);

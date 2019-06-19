@@ -26,6 +26,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import vn.com.japfa.esigning_user.util.Constant;
 
 public class AdapterListSigners extends RecyclerView.Adapter<AdapterListSigners.ViewHolder> {
 
@@ -93,7 +94,7 @@ public class AdapterListSigners extends RecyclerView.Adapter<AdapterListSigners.
 
     private void getActionSigner(String signprocess_id) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Service.base_URL)
+                .baseUrl(Constant.SERVICE_URL_VALUE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Service service = retrofit.create(Service.class);

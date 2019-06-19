@@ -28,6 +28,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
             android:name="vn.com.japfa.esigning_user.ActivityLogin_"
@@ -178,6 +179,11 @@
             android:theme="@style/leak_canary_Theme.Transparent" />
         <activity android:name="com.microsoft.aad.adal.AuthenticationActivity" >
         </activity>
+
+        <provider
+            android:name="com.android.tools.ir.server.InstantRunContentProvider"
+            android:authorities="vn.com.japfa.esigning_user.com.android.tools.ir.server.InstantRunContentProvider"
+            android:multiprocess="true" />
     </application>
 
 </manifest>
