@@ -16,6 +16,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,27 +40,46 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
     }
 
     //region add times
+//    @ViewById
+//    EditText editTextDateFrom;
+//    @ViewById
+//    EditText editTextDateTo;
     @ViewById
-    EditText editTextDateFrom;
+    EditText editTextDateFromWorkTravel;
     @ViewById
-    EditText editTextDateTo;
+    EditText editTextDateToWorkTravel;
+    @ViewById
+    EditText editTextFromTimeWorkTravel;
+    @ViewById
+    EditText editTextToTimeWorkTravel;
 
     @Click
-    void editTextDateFrom() {
-        BaseApp.setDateTime(this, editTextDateFrom);
+    void editTextDateFromWorkTravel() {
+        BaseApp.setDate(this, editTextDateFromWorkTravel);
     }
-
     @Click
-    void editTextDateTo() {
-        BaseApp.setDateTime(this, editTextDateTo);
-    }
+    void  editTextDateToWorkTravel(){BaseApp.setDate(this,editTextDateToWorkTravel);}
+    @Click
+    void editTextFromTimeWorkTravel(){BaseApp.setTime(this,editTextFromTimeWorkTravel);}
+    @Click
+    void  editTextToTimeWorkTravel(){BaseApp.setTime(this,editTextToTimeWorkTravel);}
+
+
+//    @Click
+//    void editTextDateTo() {
+//        BaseApp.setDateTime(this, editTextDateTo);
+//    }
     //endregion
 
     //region add,get data spinner
     @ViewById
     Spinner spinnerType;
+    @ViewById
+    Spinner spinnerAccommodation;
     private String textSpinnerType;
     private ArrayAdapter adapterType;
+    private ArrayAdapter adapterAccommodation;
+    private  String txtSpinnerAcomodation;
 
     @AfterViews
     protected void addDataSpinner() {
@@ -71,6 +91,19 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
         listType.add(getResources().getString(R.string.tauhoa));
         adapterType = new ArrayAdapter(this, R.layout.spinner_item, listType);
         spinnerType.setAdapter(adapterType);
+
+        List<String> lstAccommodation=new ArrayList<>();
+        lstAccommodation.add(getResources().getString(R.string.khachsan));
+        lstAccommodation.add(getResources().getString(R.string.nhakhach));
+        lstAccommodation.add(getResources().getString(R.string.chookhac));
+        adapterAccommodation=new ArrayAdapter(this,R.layout.spinner_item,lstAccommodation);
+        spinnerAccommodation.setAdapter(adapterAccommodation);
+    }
+
+    @ItemSelect
+    protected void spinnerAccommodation(boolean selected){
+        if(selected)
+            txtSpinnerAcomodation=spinnerAccommodation.getSelectedItem().toString();
     }
 
     @ItemSelect
@@ -86,8 +119,11 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
         if (BaseApp.documentID != null) {
             showDocument();
         } else {
-            editTextDateFrom.setText(BaseApp.getDateTimeCurrent());
-            editTextDateTo.setText(BaseApp.getDateTimeCurrent());
+
+//            editTextDateFrom.setText(BaseApp.getDateTimeCurrent());
+//            editTextDateTo.setText(BaseApp.getDateTimeCurrent());
+            editTextDateFromWorkTravel.setText(BaseApp.getDateCurrent());
+            editTextDateToWorkTravel.setText(BaseApp.getDateCurrent());
         }
     }
 
@@ -109,12 +145,22 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
                         editTextNoiDen.setText(hashMapData.get("Destination"));
                         editTextMucDich.setText(hashMapData.get("Purpose"));
                         editTextNguoiDiKem.setText(hashMapData.get("AccompaniedPerson"));
-                        editTextDateFrom.setText(hashMapData.get("FromDate"));
-                        editTextDateTo.setText(hashMapData.get("ToDate"));
+                        editTextDateFromWorkTravel.setText(hashMapData.get("FromDate"));
+                        editTextDateToWorkTravel.setText(hashMapData.get("ToDate"));
+                        editTextFromTimeWorkTravel.setText(hashMapData.get("FromTime"));
+                        editTextToTimeWorkTravel.setText(hashMapData.get("ToTime"));
+
+//                        editTextDateFrom.setText(hashMapData.get("FromDate"));
+//                        editTextDateTo.setText(hashMapData.get("ToDate"));
                         editTextMieuTa.setText(hashMapData.get("documentDesc"));
 
                         int i = adapterType.getPosition(hashMapData.get("ModeOfTransport"));
                         spinnerType.setSelection(i);
+
+                        editTextKhac.setText(hashMapData.get("Other"));
+                        i=adapterAccommodation.getPosition(hashMapData.get("ModeOfAccommodation"));
+                        spinnerAccommodation.setSelection(i);
+
                     }else {
                         Toast.makeText(ActivityFromWorkTravel.this, "View document error", Toast.LENGTH_SHORT).show();
                     }
@@ -139,6 +185,8 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
     EditText editTextNguoiDiKem;
     @ViewById
     EditText editTextMieuTa;
+    @ViewById
+    EditText editTextKhac;
 
     @Override
     public void save() {
@@ -147,12 +195,15 @@ public class ActivityFromWorkTravel extends BaseActivityFrom {
         data.put("Purpose", editTextMucDich.getText().toString());
         data.put("ModeOfTransport", textSpinnerType);
         data.put("AccompaniedPerson", editTextNguoiDiKem.getText().toString());
-        data.put("FromDate", editTextDateFrom.getText().toString());
-        data.put("ToDate", editTextDateTo.getText().toString());
+        data.put("FromDate",editTextDateFromWorkTravel.getText().toString());
+        data.put("ToDate",editTextDateToWorkTravel.getText().toString()) ;
+        data.put("FromTime",editTextFromTimeWorkTravel.getText().toString());
+        data.put("ToTime",editTextToTimeWorkTravel.getText().toString());
         data.put("documentDesc", editTextMieuTa.getText().toString());
         data.put("priority", "Normal");
         data.put("documentID", BaseApp.documentID);
-
+        data.put("ModeOfAccommodation",txtSpinnerAcomodation);
+        data.put("Other",editTextKhac.getText().toString());
         saveData(data);
     }
 

@@ -1189,14 +1189,16 @@ id editPassword
 id editTextComment
 id editTextCommentDialog
 id editTextDate
-id editTextDateFrom
 id editTextDateFromVehicle
-id editTextDateTo
+id editTextDateFromWorkTravel
 id editTextDateToVehicle
+id editTextDateToWorkTravel
 id editTextFromDate1
 id editTextFromDate2
 id editTextFromTimeEdit
 id editTextFromTimeVehicle
+id editTextFromTimeWorkTravel
+id editTextKhac
 id editTextLyDo
 id editTextLyDoEdit
 id editTextMieuTa
@@ -1217,6 +1219,7 @@ id editTextToDate1
 id editTextToDate2
 id editTextToTimeEdit
 id editTextToTimeVehicle
+id editTextToTimeWorkTravel
 id editTextUser
 id editUserName
 id edit_query
@@ -1356,6 +1359,7 @@ id snackbar_text
 id snap
 id snapMargins
 id spacer
+id spinnerAccommodation
 id spinnerMucDichExit
 id spinnerType
 id spinnerXeYeuCauVehicle
@@ -1385,6 +1389,7 @@ id textInputLayout3
 id textInputLayout4
 id textInputLayout5
 id textInputLayoutComment
+id textInputLayoutKhac
 id textInputLayoutLyDo
 id textInputLayoutMieuTa
 id textInputLayoutMieuTaEdit
@@ -1662,6 +1667,8 @@ string character_counter_pattern
 string chinhsua
 string cho16
 string cho7
+string choo
+string chookhac
 string congviec
 string dangxuat
 string den
@@ -1680,6 +1687,8 @@ string http_auth_dialog_login
 string http_auth_dialog_password
 string http_auth_dialog_title
 string http_auth_dialog_username
+string khac
+string khachsan
 string leak_canary_analysis_failed
 string leak_canary_class_has_leaked
 string leak_canary_class_has_leaked_retaining
@@ -1723,6 +1732,7 @@ string mieuta
 string mtrl_chip_close_icon_content_description
 string mucdich
 string nguoidikem
+string nhakhach
 string noibatdau
 string noiden
 string otocongty

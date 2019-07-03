@@ -175,25 +175,31 @@ public abstract class BaseActivityFrom extends BaseActivity {
                         if(response.isSuccessful()){
                             Documents documents = response.body();
                             if (documents != null){
+                                String message="";
                                 if (BaseApp.documentID == null) {
                                     BaseApp.documentID = documents.getId() + "";
                                     BaseApp.status = documents.getStatus();
-                                } else BaseApp.status = documents.getStatus();
+                                    message="Create document successful";
+                                } else {
+                                    BaseApp.status = documents.getStatus();
+                                    message="Save document successful";
+                                }
+
                                 checkListSignFollow();  //refresh list sign follow
                                 supportInvalidateOptionsMenu();   //refresh menu
-                                Toast.makeText(getApplicationContext(), "Create document successful", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),message , Toast.LENGTH_SHORT).show();
                             }else {
-                                Toast.makeText(getApplicationContext(), "Create document error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Create/save document error", Toast.LENGTH_SHORT).show();
                             }
 
                         }else {
-                            Toast.makeText(getApplicationContext(), "Create document error", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Create/save document error", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailureCustom(Call<Documents> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "saveData error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "save data error", Toast.LENGTH_SHORT).show();
                     }
                 });
 

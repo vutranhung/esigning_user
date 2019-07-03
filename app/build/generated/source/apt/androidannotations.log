@@ -1,22 +1,2 @@
-22:23:06.914 [Execution worker for ':'] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-22:23:06.928 [Execution worker for ':'] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-22:27:10.266 [Daemon worker Thread 2] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-22:27:10.271 [Daemon worker Thread 2] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [com.android.tools.ir.server.InstantRunContentProvider]
-22:27:10.291 [Daemon worker Thread 2] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-08:09:18.15 [Execution worker for ':' Thread 4] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-08:09:18.43 [Execution worker for ':' Thread 4] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-08:21:23.544 [Execution worker for ':'] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-08:21:23.556 [Execution worker for ':'] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-08:40:47.980 [Daemon worker Thread 3] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-08:40:47.985 [Daemon worker Thread 3] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [com.android.tools.ir.server.InstantRunContentProvider]
-08:40:47.996 [Daemon worker Thread 3] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-09:21:06.701 [Daemon worker Thread 5] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-09:21:06.704 [Daemon worker Thread 5] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [com.android.tools.ir.server.InstantRunContentProvider]
-09:21:06.715 [Daemon worker Thread 5] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-11:30:49.287 [Daemon worker Thread 7] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-11:30:49.301 [Daemon worker Thread 7] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-11:31:52.999 [Daemon worker Thread 7] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-11:31:53.15 [Daemon worker Thread 7] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
-11:51:39.263 [Daemon worker Thread 11] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
-11:51:39.266 [Daemon worker Thread 11] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [com.android.tools.ir.server.InstantRunContentProvider]
-11:51:39.277 [Daemon worker Thread 11] WARN  o.a.i.p.ModelValidator:78 - The component LoginLocalActivity_ is not registered in the AndroidManifest.xml file.
+14:29:02.414 [Execution worker for ':'] WARN  o.a.i.h.AndroidManifestFinder:482 - A class activity declared in the AndroidManifest.xml cannot be found in the compile path: [vn.com.japfa.esigning_user.base.BaseActivity_From_]
+14:29:02.427 [Execution worker for ':'] WARN  o.a.i.p.ModelValidator:78 - The component ActivityLogin_ is not registered in the AndroidManifest.xml file.

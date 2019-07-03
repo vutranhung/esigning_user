@@ -82,29 +82,68 @@ public final class ActivityFromWorkTravel_
     @Override
     public void onViewChanged(HasViews hasViews) {
         this.recyclerListSigner = hasViews.internalFindViewById(R.id.recyclerListSigner);
-        this.editTextDateFrom = hasViews.internalFindViewById(R.id.editTextDateFrom);
-        this.editTextDateTo = hasViews.internalFindViewById(R.id.editTextDateTo);
+        this.editTextDateFromWorkTravel = hasViews.internalFindViewById(R.id.editTextDateFromWorkTravel);
+        this.editTextDateToWorkTravel = hasViews.internalFindViewById(R.id.editTextDateToWorkTravel);
+        this.editTextFromTimeWorkTravel = hasViews.internalFindViewById(R.id.editTextFromTimeWorkTravel);
+        this.editTextToTimeWorkTravel = hasViews.internalFindViewById(R.id.editTextToTimeWorkTravel);
         this.spinnerType = hasViews.internalFindViewById(R.id.spinnerType);
+        this.spinnerAccommodation = hasViews.internalFindViewById(R.id.spinnerAccommodation);
         this.editTextNoiDen = hasViews.internalFindViewById(R.id.editTextNoiDen);
         this.editTextMucDich = hasViews.internalFindViewById(R.id.editTextMucDich);
         this.editTextNguoiDiKem = hasViews.internalFindViewById(R.id.editTextNguoiDiKem);
         this.editTextMieuTa = hasViews.internalFindViewById(R.id.editTextMieuTa);
-        if (this.editTextDateFrom!= null) {
-            this.editTextDateFrom.setOnClickListener(new OnClickListener() {
+        this.editTextKhac = hasViews.internalFindViewById(R.id.editTextKhac);
+        if (this.editTextDateFromWorkTravel!= null) {
+            this.editTextDateFromWorkTravel.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                    ActivityFromWorkTravel_.this.editTextDateFrom();
+                    ActivityFromWorkTravel_.this.editTextDateFromWorkTravel();
                 }
             }
             );
         }
-        if (this.editTextDateTo!= null) {
-            this.editTextDateTo.setOnClickListener(new OnClickListener() {
+        if (this.editTextDateToWorkTravel!= null) {
+            this.editTextDateToWorkTravel.setOnClickListener(new OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                    ActivityFromWorkTravel_.this.editTextDateTo();
+                    ActivityFromWorkTravel_.this.editTextDateToWorkTravel();
+                }
+            }
+            );
+        }
+        if (this.editTextFromTimeWorkTravel!= null) {
+            this.editTextFromTimeWorkTravel.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    ActivityFromWorkTravel_.this.editTextFromTimeWorkTravel();
+                }
+            }
+            );
+        }
+        if (this.editTextToTimeWorkTravel!= null) {
+            this.editTextToTimeWorkTravel.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view) {
+                    ActivityFromWorkTravel_.this.editTextToTimeWorkTravel();
+                }
+            }
+            );
+        }
+        if (this.spinnerAccommodation!= null) {
+            ((AdapterView<?> ) this.spinnerAccommodation).setOnItemSelectedListener(new OnItemSelectedListener() {
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    ActivityFromWorkTravel_.this.spinnerAccommodation(false);
+                }
+
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    ActivityFromWorkTravel_.this.spinnerAccommodation(true);
                 }
             }
             );

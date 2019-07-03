@@ -87,6 +87,7 @@ public class ActivityDocumentHD extends BaseActivity {
 
     @Click
     protected void buttonAccept() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure want to accept this document?");
         builder.setCancelable(true);
@@ -202,6 +203,11 @@ public class ActivityDocumentHD extends BaseActivity {
     //regionreject
     @Click
     protected void buttonReject() {
+        if(editTextComment.getText().length()==0)
+        {
+            Toast.makeText(ActivityDocumentHD.this, "Input reason to Reject .", Toast.LENGTH_SHORT).show();
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure want to reject this document?");
         builder.setCancelable(true);

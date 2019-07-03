@@ -109,17 +109,18 @@ public class LoginLocalActivity extends AppCompatActivity {
     @Click
     protected void button_Login() {
         saveAccount();
-        BaseApp.version="1";
-        if (BaseApp.version.equals("")) {
-            checkVersionAndUpdate();
-        } else {
-            if (!BaseApp.version.equals(versionLocal)) {
-                Toast.makeText(this, "Please update application and try again.", Toast.LENGTH_SHORT).show();
-                downloadAndInstall();
-            } else {
-                login();
-            }
-        }
+        checkVersionAndUpdate();
+//        BaseApp.version="1";
+//        if (BaseApp.version.equals("")) {
+//            checkVersionAndUpdate();
+//        } else {
+//            if (!BaseApp.version.equals(versionLocal)) {
+//                Toast.makeText(this, "Please update application and try again.", Toast.LENGTH_SHORT).show();
+//                downloadAndInstall();
+//            } else {
+//                login();
+//            }
+//        }
     }
 
     private void login(){
@@ -353,7 +354,6 @@ public class LoginLocalActivity extends AppCompatActivity {
 
     private void checkVersionAndUpdate() {
 
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Constant.SERVICE_URL_VALUE)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -369,8 +369,11 @@ public class LoginLocalActivity extends AppCompatActivity {
                     if(mtRelease!=null ){
                         if(mtRelease.getCURRENTVERSION()!=null){
                             Integer curVersion= Math.round(mtRelease.getCURRENTVERSION());
-                            if(!curVersion.toString().equals(versionLocal)){
+                            if(!curVersion.toString().equals(Constant.VERSION_VALUE)){
                                 downloadAndInstall();
+                            }else
+                            {
+                                login();
                             }
                         }
 

@@ -76,7 +76,6 @@ public final class ActivityDocuments_
 
     @Override
     public void onViewChanged(HasViews hasViews) {
-        this.toolbar = hasViews.internalFindViewById(R.id.toolbar);
         this.recyclerView = hasViews.internalFindViewById(R.id.recyclerView);
         this.drawerLayout = hasViews.internalFindViewById(R.id.drawerLayout);
         this.swipeRefreshMain = hasViews.internalFindViewById(R.id.swipeRefreshMain);

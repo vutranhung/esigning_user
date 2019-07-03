@@ -30,6 +30,13 @@
     <string name="maybay">Air plane/Máy bay</string>
     <string name="otocongty">Company car/Ô tô công ty</string>
     <string name="tauhoa">Train/Tàu hỏa</string>
+
+    <string name="choo">Accmmodation</string>
+    <string name="khachsan">Hotel/Khách sạn</string>
+    <string name="nhakhach">Company guest house/Nhà khách</string>
+    <string name="chookhac">Other/Khác</string>
+    <string name="khac">Other</string>
+
     <!--endregion-->
 
     <!--region Exit Form-->

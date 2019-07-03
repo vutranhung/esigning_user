@@ -11,6 +11,7 @@
 
 
         <Button
+            android:visibility="invisible"
             android:id="@+id/buttonPending"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,6 +70,7 @@
             app:layout_constraintTop_toBottomOf="@+id/buttonAccept" />
 
         <Button
+            android:visibility="invisible"
             android:id="@+id/buttonFW"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

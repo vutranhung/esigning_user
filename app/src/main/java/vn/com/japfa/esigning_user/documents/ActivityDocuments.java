@@ -21,6 +21,7 @@ import android.widget.Toast;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -48,14 +49,16 @@ import vn.com.japfa.esigning_user.worktravel.ActivityFromWorkTravel_;
 
 
 @EActivity
+
 public class ActivityDocuments extends AppCompatActivity implements Refresh {
 
     private AdapterDocuments adapter;
     private final int REQUEST_SETUP = 100;
 
 
-    @ViewById
+//    @ViewById
     Toolbar toolbar;
+
 
     @ViewById
     RecyclerView recyclerView;
@@ -67,9 +70,12 @@ public class ActivityDocuments extends AppCompatActivity implements Refresh {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.documents_activity);
         setTitle("Documents");
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         createNavigation();
         swipeRefreshLayoutMain();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -126,6 +132,8 @@ public class ActivityDocuments extends AppCompatActivity implements Refresh {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+
+
 //        NavigationView navigationMain = (NavigationView) findViewById(R.id.navigationMain);
 //        navigationMain.setNavigationItemSelectedListener(this);
 
@@ -135,6 +143,7 @@ public class ActivityDocuments extends AppCompatActivity implements Refresh {
     public boolean onCreateOptionsMenu(Menu menu) {
         //tao menu
         getMenuInflater().inflate(R.menu.menu_documents, menu);
+
 
         //tao searchview
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
@@ -167,6 +176,8 @@ public class ActivityDocuments extends AppCompatActivity implements Refresh {
         }
         return true;
     }
+
+
 
 //    @Override
 //    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
