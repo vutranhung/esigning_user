@@ -57,7 +57,7 @@ public class LoginLocalActivity extends AppCompatActivity {
     private String userName, password;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditer;
-    private String versionLocal = "1";
+    private String versionLocal = "2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ public class LoginLocalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login_local);
         setTitle("Login");
             requestPermissions();
-        UtilHelper.getValueProperty(this);
+       // UtilHelper.getValueProperty(this);
     }
 
     @Override
@@ -243,6 +243,8 @@ public class LoginLocalActivity extends AppCompatActivity {
     //region auto update
     private void downloadAndInstall() {
         Retrofit retrofit = new Retrofit.Builder()
+
+              //  .baseUrl(Service.base_URL_Download)
                 .baseUrl(Constant.DOWNLOAD_FILE_URL_VALUE)
                 .build();
         Service service = retrofit.create(Service.class);
@@ -355,11 +357,15 @@ public class LoginLocalActivity extends AppCompatActivity {
     private void checkVersionAndUpdate() {
 
         Retrofit retrofit = new Retrofit.Builder()
+
+               // .baseUrl(Service.base_URL)
                 .baseUrl(Constant.SERVICE_URL_VALUE)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         Service service = retrofit.create(Service.class);
+
         Call<MTRelease> call = service.checkVersionAndUpdate(Constant.APP_NAME_VALUE);
+        //Call<MTRelease> call = service.checkVersionAndUpdate(BaseApp.AppName);
 
         call.enqueue(new CallBackCustom<MTRelease>(this) {
             @Override
@@ -369,7 +375,9 @@ public class LoginLocalActivity extends AppCompatActivity {
                     if(mtRelease!=null ){
                         if(mtRelease.getCURRENTVERSION()!=null){
                             Integer curVersion= Math.round(mtRelease.getCURRENTVERSION());
-                            if(!curVersion.toString().equals(Constant.VERSION_VALUE)){
+
+                           if(!curVersion.toString().equals(Constant.VERSION_VALUE)){
+                          //  if(!curVersion.toString().equals(versionLocal)){
                                 downloadAndInstall();
                             }else
                             {
